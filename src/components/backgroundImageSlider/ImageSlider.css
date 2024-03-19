@@ -1,0 +1,17 @@
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .slide {
+    width: 100%;
+    height: 300px; /* Set your desired height */
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
