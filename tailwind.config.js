@@ -5,9 +5,8 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage:{
-        'custom-image': "url('./assets/images/soccer1.jpg')",
-      }
+        
+      
       
     },
   },

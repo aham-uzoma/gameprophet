@@ -27,32 +27,32 @@ const Navbar = () => {
           <div className='nav-links md:static absolute bg-white left-0 top-[-100%] md:min-h-fit md:w-auto min-h-[60vh] w-full flex items-center px-5'>
             <ul className='flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8'>
                 <li>
-                    <a className='hover:text-gray-500 text-lg' href='#Home'>Home</a>
+                    <a className='hover:text-red-500 text-lg' href='#Home'>Home</a>
                 </li>
                 <li>
-                    <a className='hover:text-gray-500 text-lg' href='#History'>History</a>
+                    <a className='hover:text-red-500 text-lg' href='#History'>History</a>
                 </li>
                 <li>
-                    <a className='hover:text-gray-500 text-lg' href='#Pricing'>Pricing</a>
+                    <a className='hover:text-red-500 text-lg' href='#Pricing'>Pricing</a>
                 </li>
                 <li>
-                    <a className='hover:text-gray-500 text-lg' href='#VIP'>VIP</a>
+                    <a className='hover:text-red-500 text-lg' href='#VIP'>VIP</a>
                 </li>
             </ul>
           </div>
         <div className='flex items-center gap-6'>
-            <button className='bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[hsl(218,73%,73%)]'>Sign-in</button>
-            <FontAwesomeIcon icon={isMenueOpen? faBars : faXmark} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
+            <button className='bg-[#f33f3f] text-white px-5 py-2 rounded-full hover:bg-[rgba(252,124,124,0.9)]'>Sign-in</button>
+            <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
         </div>
         </nav>
-    </header>
-    <main>
-    {/* bg-[image-url]  bg-custom-image *  bg- bg-[./assets/images/soccer1.jpg] */}
-      {/* <section className=" bg-[url('./assets/images/soccer1.jpg')] bg-cover h-screen ">
 
-      </section> */}
+    </header>
+  
+    {/* <div className="flex items-center justify-center min-h-screen">
       <ImageSlider/>
-    </main>
+    </div> */}
+   
+
     </>
   )
 }
