@@ -2,6 +2,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import ImageSlider from '../backgroundImageSlider/ImageSlider'
+import { useNavigate } from 'react-router-dom'
 // import {soccer1} from './assets/images'
 
 
@@ -13,6 +14,11 @@ const Navbar = () => {
     setIsMenueOpen(!isMenueOpen)
     navLinks.classList.toggle('top-[9%]')
  }
+ const navigate = useNavigate()
+ const goToHome =()=> navigate('/')
+ const goToHistory =()=> navigate('/history')
+ const goToPricing =()=> navigate('/pricing')
+ const goToVIP =()=> navigate('/vip')
 
 
 
@@ -26,18 +32,12 @@ const Navbar = () => {
           </div>
           <div className='nav-links md:static absolute bg-white left-0 top-[-100%] md:min-h-fit md:w-auto min-h-[60vh] w-full flex items-center px-5'>
             <ul className='flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8'>
-                <li>
-                    <a className='hover:text-red-500 text-lg' href='#Home'>Home</a>
-                </li>
-                <li>
-                    <a className='hover:text-red-500 text-lg' href='#History'>History</a>
-                </li>
-                <li>
-                    <a className='hover:text-red-500 text-lg' href='#Pricing'>Pricing</a>
-                </li>
-                <li>
-                    <a className='hover:text-red-500 text-lg' href='#VIP'>VIP</a>
-                </li>
+            
+                <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToHome}>Home</li>
+                <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToHistory}>History</li>
+                <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToVIP}>VIP</li>
+                <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToPricing}>Pricing</li>
+
             </ul>
           </div>
         <div className='flex items-center gap-6'>

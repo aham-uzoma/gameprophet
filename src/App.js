@@ -4,6 +4,7 @@ import ImageSlider from './components/backgroundImageSlider/ImageSlider';
 import './App.css'
 import LayOut from './components/layout/LayOut';
 import FrontPage from './components/frontPage/FrontPage';
+import HistoryPage from './components/historyPage/HistoryPage';
 
 
 const  App =()=> {
@@ -11,6 +12,7 @@ const  App =()=> {
     <Routes>
       <Route path='/' element={<LayOut />}>
       <Route index element={<FrontPage />} />
+      <Route path='history' element={<HistoryPage />} />
       </Route>
 
 
