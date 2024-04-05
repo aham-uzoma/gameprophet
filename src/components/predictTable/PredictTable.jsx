@@ -3,7 +3,7 @@ import React from 'react'
 const PredictTable = () => {
   return (
     <section>
-        <div className='grid justify-center mx-8 my-8 w-screen'>
+        <div className='grid justify-center mx-8 my-8 w-screen font-sen'>
         <table className='bg-white border-collapse shadow-2xl text-left w-98vw'style={{width:'75vw'}}>
         <thead>
             <tr className='bg-red-600 '>

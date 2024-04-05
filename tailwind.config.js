@@ -5,7 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {
-        
+        fontFamily: {
+          sen: ['Sen'],
+          mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"' , '"Courier New"']
+          
+        }
       
       
     },

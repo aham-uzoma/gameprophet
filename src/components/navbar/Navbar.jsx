@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <>
     <header className='bg-white'>
-        <nav className='flex justify-between items-center w-[95%] h-16 mx-auto'> 
+        <nav className='flex justify-between items-center w-[95%] h-16 mx-auto font-sen'> 
         {/* bg-red-500 */}
           <div className='text-lg'>
             Navbar

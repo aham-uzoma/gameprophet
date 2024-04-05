@@ -4,7 +4,7 @@ import PredictTable from '../predictTable/PredictTable'
 const HistoryPage = () => {
     const footballPhoto = 'https://cdn.pixabay.com/photo/2021/08/22/20/27/corner-ball-6566084_960_720.jpg'
     return (
-        <body className=' bg-amber-50 '>
+        <body className=' bg-amber-50 font-sen'>
             <section className='flex flex-col mb-8 '>
                 <div className='flex w-screen bg-black bg-cover items-center pl-8' style={{
                     height: '30vh', backgroundImage:
@@ -92,7 +92,7 @@ const HistoryPage = () => {
                     {/* bg-lime-500 */}
                     <div className='flex justify-between h-20  items-center'>
                         <div className='w-80 h-14 bg-red-600 ml-8 rounded-l-full flex justify-center items-center'>
-                            <h1 className='text-xl font-bold text-white'>March 22th 2024</h1>
+                            <h1 className='text-xl font-bold text-white'>May 22th 2024</h1>
                         </div>
                         <div>
                             <hr className='w-10 h-1  bg-red-600 ' />
