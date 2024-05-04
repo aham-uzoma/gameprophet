@@ -6,8 +6,8 @@ const PredictTable2 = () => {
                              <table className='bg-white border-collapse shadow-2xl text-left w-98vw' style={{ width: '60vw' }}>
                                 <thead>
                                     <tr className='bg-red-600 '>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Game</th>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Odds</th>
+                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Matches</th>
+                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Options</th>
                                         <th className='p-7 uppercase text-xl text-white	tracking-widest'>Result</th>
                                         <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Other</th>
                                         <th className='p-7 uppercase text-xl text-white	tracking-widest'>Scales</th>

@@ -5,7 +5,7 @@ import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 const VipPage = () => {
     return (
-        <body className=' bg-amber-50 font-sen'>
+        <section className=' bg-amber-50 font-sen'>
             <section className='flex flex-col mb-8 '>
                 <div className='flex w-screen bg-orange-400 bg-cover items-center pl-8' style={{ height: '30vh' }}>
                     <h1 className='text-3xl font-bold text-white'>VIP.</h1>
@@ -107,7 +107,7 @@ const VipPage = () => {
             </section>
 
 
-        </body>
+        </section>
     )
 }
 

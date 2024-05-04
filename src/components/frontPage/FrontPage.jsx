@@ -5,12 +5,12 @@ import PredictTable from '../predictTable/PredictTable'
 
 const FrontPage = () => {
   return (
-    <>
-    <div className=' bg-amber-50'>
+    
+    <section className=' bg-amber-50'>
     <ImageSlider/>
     <PredictTable/>
-    </div>
-    </>
+    </section>
+    
   )
 }
 

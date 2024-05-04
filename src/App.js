@@ -1,12 +1,11 @@
 import {Route, Routes } from 'react-router-dom';
-import Navbar from './components/navbar/Navbar';
-import ImageSlider from './components/backgroundImageSlider/ImageSlider';
 import './App.css'
 import LayOut from './components/layout/LayOut';
 import FrontPage from './components/frontPage/FrontPage';
 import HistoryPage from './components/historyPage/HistoryPage';
 import VipPage from './components/vipPage/VipPage';
 import Pricing from './components/pricing/Pricing';
+import UserPage from './components/userPage/UserPage';
 
 
 const  App =()=> {
@@ -17,10 +16,8 @@ const  App =()=> {
       <Route path='history' element={<HistoryPage />} />
       <Route path='vip' element={<VipPage />} />
       <Route path='pricing' element={<Pricing/>}/>
-
+      <Route path='profilePage' element={<UserPage/>}/>
       </Route>
-
-
     </Routes>
   );
 }

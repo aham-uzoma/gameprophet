@@ -2,7 +2,7 @@ import React from 'react'
 
 const Pricing = () => {
   return (
-    <body className='flex flex-col w-screen  bg-amber-50'>
+    <div className='flex flex-col w-screen  bg-amber-50'>
         {/* bg-slate-400 */}
         <div className='flex flex-col w-screen h-28  justify-center items-center'>
         <h1 className='text-8xl font-bold text-orange-400'>VIP Pass</h1>
@@ -23,7 +23,7 @@ const Pricing = () => {
             </div>
 
        
-    </body>
+    </div>
   )
 }
 

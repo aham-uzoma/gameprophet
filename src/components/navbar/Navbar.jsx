@@ -1,7 +1,6 @@
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import ImageSlider from '../backgroundImageSlider/ImageSlider'
 import { useNavigate } from 'react-router-dom'
 // import {soccer1} from './assets/images'
 
@@ -19,6 +18,7 @@ const Navbar = () => {
  const goToHistory =()=> navigate('/history')
  const goToPricing =()=> navigate('/pricing')
  const goToVIP =()=> navigate('/vip')
+ const goToUserProfilePage=()=> navigate('/profilePage')
 
 
 
@@ -41,7 +41,10 @@ const Navbar = () => {
             </ul>
           </div>
         <div className='flex items-center gap-6'>
-            <button className='bg-[#f33f3f] text-white px-5 py-2 rounded-full hover:bg-[rgba(252,124,124,0.9)]'>Sign-in</button>
+            <button className='bg-[#f33f3f] text-white px-5 py-2 rounded-full hover:bg-[rgba(252,124,124,0.9)]'
+            onClick={goToUserProfilePage}>
+              Sign-in
+              </button>
             <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
         </div>
         </nav>

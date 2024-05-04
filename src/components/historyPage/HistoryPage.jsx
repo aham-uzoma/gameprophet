@@ -1,10 +1,9 @@
 import React from 'react'
-import PredictTable from '../predictTable/PredictTable'
 
 const HistoryPage = () => {
     const footballPhoto = 'https://cdn.pixabay.com/photo/2021/08/22/20/27/corner-ball-6566084_960_720.jpg'
     return (
-        <body className=' bg-amber-50 font-sen'>
+        <section className=' bg-amber-50 font-sen'>
             <section className='flex flex-col mb-8 '>
                 <div className='flex w-screen bg-black bg-cover items-center pl-8' style={{
                     height: '30vh', backgroundImage:
@@ -237,7 +236,7 @@ const HistoryPage = () => {
 
 
             </section>
-        </body>
+        </section>
     )
 }
 
