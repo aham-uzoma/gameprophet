@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 
 function UserPage() {
 
+    const [showError, setShowError]=useState('false')
     const onSubmitPredict=(value)=>{
        
        console.log(value)
@@ -42,10 +43,12 @@ function UserPage() {
                             const errors= {}
                             if(!values.game){
                                 errors.game= 'game is required'
+                                setShowError(true)
                                 console.log(errors.game)
                             }
                             if(!values.odds){
                                errors.odds = 'odds is required'
+                               setShowError(true)
                                console.log(errors.odds)
     
                             }
@@ -53,6 +56,7 @@ function UserPage() {
     
                             if(Object.keys(errors).length>0){
                                 console.log("errors choke")
+                                setShowError(true)
                                 return;
                             }
                         }
@@ -73,7 +77,7 @@ function UserPage() {
                               }}
                         />
                         {console.log(errors)}
-                        {errors.game && <p1 className='text-red-500 '>{errors.game}</p1>}
+                        {showError && <div className='text-red-500 '>{errors.game}</div>}
                         <Field
                             className='h-14 w-96 rounded-2xl mt-6  border-2 p-4 focus:outline-none focus:ring-0 focus:border-red-500 focus:border-4'
                             name="odds"
@@ -85,7 +89,7 @@ function UserPage() {
                               }}
                         />
                       {/* <div className='text-red-500'>this test</div> */}
-                        {errors.game && <div className='text-red-500'>{errors.odds}</div>}
+                        {showError && <div className='text-red-500'>{errors.odds}</div>}
                         {/* <ErrorMessage name="email" component="div" /> */}
                         <button className='mt-20 h-16 w-60 text-xl bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
                         onClick={handleSubmit} type='submit'>Place Prediction</button>
