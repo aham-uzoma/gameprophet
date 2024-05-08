@@ -8,7 +8,7 @@ const Pricing = () => {
         <h1 className='text-8xl font-bold text-orange-400'>VIP Pass</h1>
         </div>
         <div className='flex flex-col  w-screen justify-center items-center'>
-            <h1 className='text-4xl text-gray-600 font-bold mb-8 mt-12'>Pricing</h1>
+            <h1 className='text-4xl text-gray-600 font-bold mb-8 mt-12'>Subscription</h1>
             <div className='flex bg-orange-400' style={{ width: '30vw', height: '2vh'}}></div>
 
             <div className='flex flex-col justify-center items-center  bg-gray-100 shadow-2xl mb-12'style={{ width: '30vw', height: '60vh', gap:'20px'}} >

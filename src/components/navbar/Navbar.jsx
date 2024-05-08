@@ -36,7 +36,7 @@ const Navbar = () => {
                 <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToHome}>Home</li>
                 <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToHistory}>History</li>
                 <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToVIP}>VIP</li>
-                <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToPricing}>Pricing</li>
+                <li className='hover:text-red-500 text-lg cursor-pointer' onClick={goToPricing}>Subscription</li>
 
             </ul>
           </div>
