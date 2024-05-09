@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 //import axios from '../../api/axios';
 import axios from 'axios'
+import TrashSVG from '../../icons/TrashSVG'
 
 
 
@@ -12,6 +13,7 @@ function UserPage() {
     const [showWarining2, setShowWarning2] = useState(false)
     const [newPrediction, setNewPrediction] = useState([])
     const [showTable, setShowTable] = useState(false)
+    const [isDataInTable, setIsDataInTable] = useState(false)
 
 
     const  BASE_URL = 'http://localhost:8080/api/v1/predict';
@@ -52,15 +54,18 @@ function UserPage() {
         oddsInputRef.current.value=''
         setGame('')
         setOdds('')
+        setIsDataInTable(true)
           }
        
     }
-    const handleSubmit =(e)=>{
+    const handleSubmit =async(e)=>{
         e.preventDefault()
         console.log('newPredictions:', newPrediction)
-                    // await axios.post(BASE_URL, {game, odds}).then(res=>console.log(res)).catch(error=>console.log(error))
-            // console.log('games:', game)
-            // console.log('odds:', odds)
+           await axios.post(BASE_URL, newPrediction).then(res=>console.log(res)).catch(error=>console.log(error)) 
+    }
+    const handleDelete = (itemid) =>{
+      const predictionsLeft = newPrediction.filter((items)=>items !== itemid)
+      setNewPrediction(predictionsLeft) 
     }
 
 
@@ -102,6 +107,7 @@ function UserPage() {
             <tr className='bg-red-600 '>
                 <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Game</th> 
                 <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Odds</th>
+                <th className='p-5 uppercase text-xl text-white	 tracking-widest'></th>
             </tr>
         </thead>
         { newPrediction.map((predictions, index)=>{
@@ -111,6 +117,7 @@ function UserPage() {
                     <tr className={rowColorClass} >
                         <td className='p-4'>{game.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
                         <td className='p-4'>{odds.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                        <td className='p-4 cursor-pointer' onClick={()=>handleDelete(predictions)}><TrashSVG /></td>
                     </tr>
                 </tbody>
          })}
@@ -146,9 +153,11 @@ function UserPage() {
                         {showWarining2 && <div className='text-red-500 font-sans'>Please Enter the form provided...</div>}
                         <div className='flex gap-6'>
                         <button className='mt-20 h-16 w-60 text-xl bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
-                        onClick={handleNewPredictions} type='submit'>Add Prediction</button>
+                        onClick={handleNewPredictions} type='submit'>+ Add Prediction</button>
                         <button className='mt-20 h-16 w-60 text-xl bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
-                        onClick={handleSubmit} type='submit'>Place Prediction</button>
+                        onClick={handleSubmit}                             
+                        disabled={!isDataInTable}
+                        type='submit'>Place Prediction</button>
                         </div>
                     </form>
                     </div>
