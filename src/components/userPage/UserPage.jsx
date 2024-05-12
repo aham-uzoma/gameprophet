@@ -1,9 +1,13 @@
-import React, { useState, useRef, useEffect, } from 'react'
+import React, { useState, useRef,} from 'react'
 //import axios from '../../api/axios';
 import axios from 'axios'
 import TrashSVG from '../../icons/TrashSVG'
 import Modal from '../modals/Modal'
 import { Checkbox } from "@material-tailwind/react";
+import PassResultSVG from '../../icons/PassResultSVG';
+import Colors from '../../utils/Colors'
+import FailResultSVG from '../../icons/FailResultSVG';
+
 
 
 
@@ -20,17 +24,16 @@ function UserPage() {
     const [modalVisible, setModalVisible] = useState(false)
     const [isSucessFull, setIsSuccessfull] = useState(false)
     const [checkboxVisible, setCheckboxVisible] = useState(false)
-    const [checkboxState, setCheckboxState] = useState({
-        vipCheck:false,
-        regularCheck: false,
-    })
- 
+    const [regular, setRegular]=useState(false)
+    const [vip, setVip]=useState(false)
+    const [passVisible, setPassVisible] = useState(false)
+    const [failVisible, setFailVisible] = useState(false)
+    const [marksVisible, setMarksVisible] = useState(true)
+
     const BASE_URL = 'http://localhost:8080/api/v1/predict';
 
     const gameInputRef = useRef()
     const oddsInputRef = useRef()
-
-
 
     const handleGameInput = (e) => {
         setGame(e.target.value)
@@ -41,8 +44,6 @@ function UserPage() {
         setOdds(e.target.value)
         setShowWarning2(false)
     }
-
-
     const handleNewPredictions = (e) => {
         e.preventDefault()
         if (odds === '' && game === '') {
@@ -58,7 +59,9 @@ function UserPage() {
                     setShowWarning1(false)
                 } else {
                     setShowTable(true)
-                    const newPredictions = { game, odds, checkboxState }
+                    console.log('VIP:',vip)
+                    console.log('Regular,', regular)
+                    const newPredictions = { game, odds,}
                     setNewPrediction([...newPrediction, newPredictions])
                     gameInputRef.current.value = ''
                     oddsInputRef.current.value = ''
@@ -69,13 +72,17 @@ function UserPage() {
 
     }
     const openModal = (e) => {
-        e.preventDefault()
+         e.preventDefault()
         if(checkboxVisible === false){
             setModalVisible(false)
-        }else{
+            setCheckboxVisible(true)
+        }
+        if(vip===false && regular===false){
+            return
+        }
+        else{
             setModalVisible(true)
         }
-        
     }
     const closeModal = (e) => {
         e.preventDefault()
@@ -87,42 +94,41 @@ function UserPage() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('newPredictions:', newPrediction)
-        // await axios.post(BASE_URL, newPrediction).then(res => {
-        //     console.log(res)
-        //     if (res.status === 201) {
-        //         setIsSuccessfull(true)
-        //     } else {
-        //         alert('Error: Something went wrong. Please try again later.');
+        console.log('VIP2:',vip)
+        console.log('Regular2,', regular)
+        const newPredictionArr = [...newPrediction]
+        for (const items of newPredictionArr){
+            items.vip=vip;
+            items.regular=regular;
+        }
+        console.log('newPredictions:', newPredictionArr)
+        await axios.post(BASE_URL, newPrediction).then(res => {
+            console.log(res)
+            if (res.status === 201) {
+                setIsSuccessfull(true)
+            } else {
+                alert('Error: Something went wrong. Please try again later.');
 
-        //     }
-        // }).catch(error => {
-        //     console.log(error)
-        //     alert('Error: Something went wrong. Please try again later.');
+            }
+        }).catch(error => {
+            console.log(error)
+            alert('Error: Something went wrong. Please try again later.');
 
-        // })
+        })
 
     }
     const handleDelete = (itemid) => {
         const predictionsLeft = newPrediction.filter((items) => items !== itemid)
         setNewPrediction(predictionsLeft)
     }
-
-    const handleChecked = (checkboxId) =>{
-       // e.preventDefault()
-       setCheckboxState((prevState) => ({
-        ...prevState,
-        [checkboxId]: !prevState[checkboxId],
-      }));
-      if(checkboxId === "vipCheck"){
-        console.log('checkedVipCheck:', checkboxState.vipCheck)
-      }else{
-        console.log('CheckedRegular:', checkboxState.regularCheck)
-      }
+    const handleChecked = () =>{
+       // setVip((prevCheck1)=>!prevCheck1)
+          setVip(!vip)
     }
- 
- 
-    
+    const handleChecked1 = ()=>{
+       // setRegular((prevCheck)=>!prevCheck)
+          setRegular(!regular)
+    }
     return (
         <section >
             {/* mb-8 */}
@@ -208,11 +214,16 @@ function UserPage() {
                             {checkboxVisible && <div className='flex gap-10'>
                                 <label className='flex items-center'>
                                 <Checkbox id='vipCheck' label='VIP' color='red' 
-                                checked={checkboxState.vipCheck}
-                                ripple={true} onChange={()=>handleChecked('vipCheck')} />
+                               // checked={checkboxState.vipCheck}
+                                checked={vip} 
+                                // ripple={true} onChange={()=>handleChecked('vipCheck')} />
+                                ripple={true} onChange={handleChecked} />
                                     <Checkbox id='regularCheck' label='Regular' 
-                                   checked={checkboxState.regularCheck}
-                                    color='red' ripple={true} onChange={()=>handleChecked('regularCheck')}/>
+                                   //checked={checkboxState.regularCheck}
+                                   checked={regular}
+                                //    color='red' ripple={true} onChange={()=>handleChecked('regularCheck')}/>
+                                color='red' ripple={true} onChange={handleChecked1}/>
+
                                 </label>
                             </div> }
                         </div>
@@ -226,14 +237,58 @@ function UserPage() {
                         </div>
                     </form>
                 </div>
+                <div className='flex flex-col justify-center w-screen items-center font-sen'>
+                <h1 className='text-3xl mb-5 mt-14 font-bold'>RECENT PREDICTIONS</h1>
+                <div className='grid justify-center font-sen w-screen'>
+                    {/* w-98vw 
+        style={{width:'75vw'}} */}
+                    <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '40vw' }} >
+                        <thead>
+                            <tr className='bg-red-600 '>
+                                <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Game</th>
+                                <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Odds</th>
+                                <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Result</th>
+                            </tr>
+                        </thead>
+                         <tbody>
+                                <tr className="even:bg-red-100">
+                                    <td className='p-4'>Chelsea Vs Manchester United</td>
+                                    <td className='p-4'>Fulham Vs RealMadrid</td>
+                                    { marksVisible &&<>  <td className='flex gap-6 p-4 cursor-pointer' >
+                                 <PassResultSVG color={Colors.PASS} size={30} onClick={() =>{
+                                    setMarksVisible(false)
+                                    setPassVisible(true)
+                                }} />
+                                        <FailResultSVG color={Colors.PRIMARY} size={30}/>
+                                    </td></>}
+                                { passVisible &&  <td className='flex gap-6 p-4 cursor-pointer' onClick={() =>{}}>
+                                      <PassResultSVG color={Colors.PASS} size={50} />
+                                    </td>}
+                                    { failVisible &&  <td className='flex gap-6 p-4 cursor-pointer' onClick={() =>{}}>
+                                      <PassResultSVG color={Colors.PASS} size={50} />
+                                    </td>}
+                                </tr>
+                                <tr className="even:bg-red-100">
+                                    <td className='p-4'>RealMadrid Vs Bacelona</td>
+                                    <td className='p-4'>Chelsea Vs Tottenham</td>
+                                    <td className='p-4 cursor-pointer' onClick={() =>{}}><PassResultSVG color={Colors.PASS} /></td>
+                                </tr>
+                                <tr className="even:bg-red-100">
+                                    <td className='p-4'>Afara United Vs Manchester United</td>
+                                    <td className='p-4'>Fulham Vs Chelsea</td>
+                                    <td className='p-4 cursor-pointer' onClick={() =>{}}><FailResultSVG color={Colors.PRIMARY} /></td>
+                                </tr>
+                            </tbody>
+                    
+                    </table>
+                </div>
+                </div>
             </div>
             {modalVisible && <Modal
                 handleSubmit={handleSubmit}
                 closeModal={closeModal}
                 isSucessFull={isSucessFull}
                 handleReloadPage={handleReloadPage}
-                checkboxState={checkboxState}
-                handleChecked={handleChecked}
                  />}
         </section>
     )
