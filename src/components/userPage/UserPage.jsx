@@ -15,15 +15,6 @@ import FailResultSVG from '../../icons/FailResultSVG';
 function UserPage() {
 
     const [numPairs, setNumPairs] = useState(0)
-    const createInitialMarksVisible = (numPairs) => {
-        const initialState = {};
-        for (let i = 0; i < numPairs; i++) {
-          initialState[i] = true;
-        }
-        console.log('initialState',initialState)
-        return initialState;
-      };
-
     const [game, setGame] = useState('')
     const [odds, setOdds] = useState('')
     const [showWarining1, setShowWarning1] = useState(false)
@@ -38,31 +29,57 @@ function UserPage() {
     const [vip, setVip] = useState(false)
     const [passVisible, setPassVisible] = useState(false)
     const [failVisible, setFailVisible] = useState(false)
-    // const [marksVisible, setMarksVisible] = useState({0:true})
-    const [marksVisible, setMarksVisible] = useState(createInitialMarksVisible(numPairs));
     const [userPredictions, setUserPredictions] = useState([])
-    //const [marksVisible, setMarksVisible] = useState(Array(userPredictions.length).fill(true));
-
+    const [marksVisible, setMarksVisible] = useState(null);
+    const [newResults, setNewResults] = useState([])
+    // const [userPredictionIds, setUserPredictionIds] = useState([])
 
     const BASE_URL = 'http://localhost:8080/api/v1/predict';
 
     const gameInputRef = useRef()
     const oddsInputRef = useRef()
 
-    useEffect(()=>{
-        axios.get(BASE_URL).then((res)=>{
+    useEffect(() => {
+        axios.get(BASE_URL).then((res) => {
             setUserPredictions(res.data)
-        }).catch((error)=>console.log(error))
-    },[])
+        }).catch((error) => console.log(error))
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         setNumPairs(userPredictions.length)
-    },[userPredictions.length])
+    }, [userPredictions.length])
+
+    useEffect(() => {
+        setMarksVisible(createInitialMarksVisible(userPredictions))
+    }, [userPredictions])
+   
+    const createInitialMarksVisible = (userPredictions) => {
+        const userPredictionsID = userPredictions.map((predictIds)=>predictIds._id)
+        console.log('userPredictionsId:', userPredictionsID)
+        const initialState = {};
+        for (const id of userPredictionsID) {
+            initialState[id] = true;
+        }
+        console.log('initialState', initialState);
+        return initialState;
+    };
+    
+
+    useEffect(() => {
+        console.log('userPredictions:', userPredictions)
+        console.log('newP', userPredictions.length)
+        console.log('marksVisible', marksVisible)
+    }, [userPredictions, userPredictions.length, marksVisible])
+
+    useEffect(() => {
+        console.log('passMarkVisible:', passVisible)
+        console.log('failMarkVisible:', failVisible)
+    }, [passVisible, failVisible])
 
     useEffect(()=>{
-        console.log('userPredictions:', userPredictions)
-        console.log('newP',userPredictions.length)
-     },[userPredictions,userPredictions.length])
+        const newResultss = {passVisible, failVisible}
+        setNewResults([...newResults, newResultss])
+    },[passVisible, failVisible, newResults])
 
     const handleGameInput = (e) => {
         setGame(e.target.value)
@@ -88,8 +105,6 @@ function UserPage() {
                     setShowWarning1(false)
                 } else {
                     setShowTable(true)
-                    console.log('VIP:', vip)
-                    console.log('Regular,', regular)
                     const newPredictions = { game, odds, }
                     setNewPrediction([...newPrediction, newPredictions])
                     gameInputRef.current.value = ''
@@ -99,6 +114,35 @@ function UserPage() {
                     setIsDataInTable(true)
                 }
 
+    }
+    const handleUpdatePredictable = async(newPrediction) =>{
+
+        const invertFailedVisible=(data)=>{
+            for(const item of data){
+                if(item.hasOwnProperty('failVisible')){
+                 const failVisible = item.failVisible
+                 for(const key of failVisible){
+                    if(failVisible.hasOwnProperty(key)){
+                        failVisible[key]=false
+                    }
+                 }
+                }
+            }
+        }
+        invertFailedVisible(data)
+        // await axios.put(BASE_URL, newResults).then(res => {
+        //     console.log(res)
+        //     // if (res.status === 201) {
+        //     //     setIsSuccessfull(true)
+        //     // } else {
+        //     //     alert('Error: Something went wrong. Please try again later.');
+
+        //     // }
+        // }).catch(error => {
+        //     console.log(error)
+        //     alert('Error: Something went wrong. Please try again later.');
+
+        // })
     }
     const openModal = (e) => {
         e.preventDefault()
@@ -123,8 +167,6 @@ function UserPage() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('VIP2:', vip)
-        console.log('Regular2,', regular)
         const newPredictionArr = [...newPrediction]
         for (const items of newPredictionArr) {
             items.vip = vip;
@@ -155,24 +197,18 @@ function UserPage() {
         setVip(!vip)
     }
     const handleChecked1 = () => {
-        // setRegular((prevCheck)=>!prevCheck)
         setRegular(!regular)
     }
-    const handlePassMark = (index) => {
-       // setMarksVisible(false )
-        setPassVisible((prev) => ({ ...prev, [index]: true }))
-        setMarksVisible((prev) => ({ ...prev, [index]: false }))
-        console.log('Markk2:', marksVisible[index])
+    const handlePassMark = (id) => {
+        setPassVisible((prev) => ({ ...prev, [id]: true }))
+        setMarksVisible((prev) => ({ ...prev, [id]: false }))
+        console.log('Markk2:', marksVisible[id])
 
     }
-    const handleFailMark = (index) => {
-       // setMarksVisible(false)
-        setFailVisible((prev) => ({ ...prev, [index]: true }))
-        setMarksVisible((prev) => ({ ...prev, [index]: false }))
+    const handleFailMark = (id) => {
+        setFailVisible((prev) => ({ ...prev, [id]: true }))
+        setMarksVisible((prev) => ({ ...prev, [id]: false }))
     }
-    useEffect(()=>{
-        console.log('marksVisible:', marksVisible)
-    },[marksVisible])
 
     return (
         <section >
@@ -200,7 +236,7 @@ function UserPage() {
 
 
             <div className='flex-col bg-amber-50  w-screen justify-center items-center pt-8'>
-            {/* h-screen */}
+                {/* h-screen */}
                 {/* drop-shadow-md */}
 
                 <div className='grid justify-center font-sen w-screen'>
@@ -296,40 +332,49 @@ function UserPage() {
                                     <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Result</th>
                                 </tr>
                             </thead>
-                            {userPredictions.map((predict_db, index)=>{
-                               const {game, odds} = predict_db
-                               const rowColor = index % 2 === 0? 'bg-red-100': ''
-                            return(
-                                <tbody key={index}>
-                                <tr className={rowColor}>
-                                    <td className='p-4'>{game}</td>
-                                    <td className='p-4'>{odds}</td>
-                                    <td className='flex justify-center items-center gap-6 p-4 cursor-pointer' >
-                                     {marksVisible[index] && (<>  <button className='h-8 w-8 text-xl rounded-full bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
-                                            onClick={()=>{handlePassMark(index);console.log('marKK:',marksVisible)}} type='submit'><PassResultSVG color={'white'} size={30} /></button>
-                                        <button className='h-8 w-8 text-xl rounded-full bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
-                                            onClick={()=>handleFailMark(index)} type='submit'><FailResultSVG color={'white'} /></button>
-                                            </>)}
-                                           {passVisible[index] && <div className='flex'  onClick={() => {
-                                        setMarksVisible((prev) => ({ ...prev, [index]: true }))
-                                        setPassVisible((prev) => ({ ...prev, [index]: false }))
-                                        console.log('marksVisibleIndex:,', marksVisible)
-                                        console.log('passVisible:,', passVisible)
-                                    }}><PassResultSVG color={Colors.PASS} size={50} /></div>}
+                            {userPredictions.map((predict_db, index) => {
+                                const { game, odds } = predict_db
+                               // console.log('pREDICTABLEid:',predict_db._id)
+                                const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
+                                return (
+                                    <tbody key={index}>
+                                        <tr className={rowColor}>
+                                        {/* .replace(/\b\w/g, (c) => c.toUpperCase()) */}
+                                            <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                            <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                            <td className='flex justify-center items-center gap-6 p-4 cursor-pointer' >
+                                                {marksVisible[predict_db._id] && (<>  
+                                                <button className='h-8 w-8 text-xl rounded-full bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
+                                                    onClick={() => { handlePassMark(predict_db._id)}} type='submit'>
+                                                        <PassResultSVG color={'white'} size={30} />
+                                                </button>
+                                                <button className='h-8 w-8 text-xl rounded-full bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
+                                                        onClick={() => handleFailMark(predict_db._id)} type='submit'>
+                                                        <FailResultSVG color={'white'} />
+                                                </button>
+                                                </>)}
+                                                {passVisible[predict_db._id] && <div className='flex' onClick={() => {
+                                                    setMarksVisible((prev) => ({ ...prev, [predict_db._id]: true }))
+                                                    setPassVisible((prev) => ({ ...prev, [predict_db._id]: false }))
+                                                }}><PassResultSVG color={Colors.PASS} size={50} /></div>}
 
-                                        {failVisible[index] && <div className='flex' onClick={() => {
-                                            setMarksVisible((prev) => ({ ...prev, [index]: true }))
-                                            setFailVisible((prev) => ({ ...prev, [index]: false }))
-                                            console.log('marksVisibleIndex:,', marksVisible)
-                                             console.log('failVisible:,', failVisible)
-                                       
-                                            }}><FailResultSVG color={Colors.PRIMARY} size={50} /></div>}
-                                    </td>
-                                 
-                                </tr>
-                            </tbody>
-                               )})}
+                                                {failVisible[predict_db._id] && <div className='flex' onClick={() => {
+                                                    setMarksVisible((prev) => ({ ...prev, [predict_db._id]: true }))
+                                                    setFailVisible((prev) => ({ ...prev, [predict_db._id]: false }))
+                                                }}><FailResultSVG color={Colors.PRIMARY} size={50} /></div>}
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                )
+                            })}
                         </table>
+                        <div className='flex mt-10'>
+                            <button className='mt-10 h-16 w-60 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
+                                onClick={handleUpdatePredictable}                             
+                                type='submit'>Save
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
