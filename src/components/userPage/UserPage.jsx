@@ -31,7 +31,7 @@ function UserPage() {
     const [failVisible, setFailVisible] = useState(false)
     const [userPredictions, setUserPredictions] = useState([])
     const [marksVisible, setMarksVisible] = useState(null);
-    const [newResults, setNewResults] = useState([])
+    const [results, setResults] = useState(null)
     // const [userPredictionIds, setUserPredictionIds] = useState([])
 
     const BASE_URL = 'http://localhost:8080/api/v1/predict';
@@ -55,31 +55,31 @@ function UserPage() {
    
     const createInitialMarksVisible = (userPredictions) => {
         const userPredictionsID = userPredictions.map((predictIds)=>predictIds._id)
-        console.log('userPredictionsId:', userPredictionsID)
+       // console.log('userPredictionsId:', userPredictionsID)
         const initialState = {};
         for (const id of userPredictionsID) {
             initialState[id] = true;
         }
-        console.log('initialState', initialState);
+       // console.log('initialState', initialState);
         return initialState;
     };
     
 
-    useEffect(() => {
-        console.log('userPredictions:', userPredictions)
-        console.log('newP', userPredictions.length)
-        console.log('marksVisible', marksVisible)
-    }, [userPredictions, userPredictions.length, marksVisible])
+    // useEffect(() => {
+    //     console.log('marksVisible', marksVisible)
+    // }, [ marksVisible])
+
 
     useEffect(() => {
         console.log('passMarkVisible:', passVisible)
         console.log('failMarkVisible:', failVisible)
     }, [passVisible, failVisible])
 
-    useEffect(()=>{
-        const newResultss = {passVisible, failVisible}
-        setNewResults([...newResults, newResultss])
-    },[passVisible, failVisible, newResults])
+
+    // useEffect(()=>{
+    //     const newResultss = {passVisible, failVisible}
+    //     setNewResults([...newResults, newResultss])
+    // },[passVisible, failVisible])
 
     const handleGameInput = (e) => {
         setGame(e.target.value)
@@ -115,35 +115,125 @@ function UserPage() {
                 }
 
     }
-    const handleUpdatePredictable = async(newPrediction) =>{
-
-        const invertFailedVisible=(data)=>{
-            for(const item of data){
-                if(item.hasOwnProperty('failVisible')){
-                 const failVisible = item.failVisible
-                 for(const key of failVisible){
-                    if(failVisible.hasOwnProperty(key)){
-                        failVisible[key]=false
-                    }
-                 }
-                }
+    const handleUpdatePredictable =async()=>{
+        const newResultUpdates = {};
+        const newResults = {passVisible, failVisible}
+        for(const key in newResults.passVisible){
+            if(!newResults.passVisible[key]){
+                delete newResults.passVisible[key]
             }
         }
-        invertFailedVisible(data)
-        // await axios.put(BASE_URL, newResults).then(res => {
-        //     console.log(res)
-        //     // if (res.status === 201) {
-        //     //     setIsSuccessfull(true)
-        //     // } else {
-        //     //     alert('Error: Something went wrong. Please try again later.');
+        for(const key in newResults.failVisible){
+            if(!newResults.failVisible[key]){
+                delete newResults.failVisible[key]
+            }
+        }
+        console.log('newResults:', newResults)
+        for(const key in newResults.failVisible){
+            newResults.failVisible[key] = false
+        }
+        // console.log('newResultsCopyUpdates:', newResults)
+        const newMergedResults = {...newResults.passVisible,...newResults.failVisible}
+        console.log('newMergedResult:', newMergedResults)
+        for (const key in newMergedResults){
+            newResultUpdates[key]= {_id:key, result:newMergedResults[key]}
+        }
+        console.log('newResultUpdates:',newResultUpdates )
+       
 
-        //     // }
-        // }).catch(error => {
-        //     console.log(error)
-        //     alert('Error: Something went wrong. Please try again later.');
+        //setResults(newMergedResults);
 
-        // })
+            await axios.put(BASE_URL, newResultUpdates).then(res => {
+            console.log(res)
+            // if (res.status === 201) {
+            //     setIsSuccessfull(true)
+            // } else {
+            //     alert('Error: Something went wrong. Please try again later.');
+
+            // }
+        }).catch(error => {
+            console.log(error)
+            alert('Error: Something went wrong. Please try again later.');
+
+        })
     }
+    // const handleUpdatePredictable =  () => {
+    //     const newResults = { passVisible, failVisible };
+    //     console.log('newResults:', newResults);
+      
+    //     const updatedResults = {};
+    //     for (const result in newResults) {
+    //       updatedResults[result] = { ...newResults[result] }; // Create a copy of the property
+    //       if (updatedResults[result].hasOwnProperty('failVisible')) {
+    //         const failVisible = updatedResults[result].failVisible;
+    //         for (const key in failVisible) {
+    //           failVisible[key] = false;
+    //         }
+    //         // Use Object.assign to create a new object with updated failVisible
+    //         updatedResults[result] = Object.assign({}, updatedResults[result], { failVisible });
+    //       }
+    //     }
+      
+    //     console.log('newResultsUpdated:', updatedResults);
+    //   };
+      
+       
+    // const handleUpdatePredictable = () =>{
+    //     const newResultss = {passVisible, failVisible}
+    //     //newResultss.passVisible[key]
+    //     const newResultssCopy = { ...newResultss }
+    //     console.log('newResultss:', newResultss)
+    //     console.log('newResultsCopy', newResultssCopy)
+    //     //newResultCopy = {passVisible, failVisible}
+    //    // console.log('newResultsArr:', newResultsArr)
+    //    for(const result in newResultssCopy){
+    //     if(newResultssCopy[result].hasOwnProperty('failVisible')){
+    //         const failVisible = newResultssCopy[result].failVisible
+    //         //using destructuring instead of the above.
+    //        // const {failVisible} = newResultssCopy[result]
+
+    //         for(const key in failVisible){
+    //             failVisible[key] = false;
+    //         }
+    //     }
+    //    }
+    //    console.log('newResultssUpdate:', newResultssCopy)
+
+
+
+
+
+    // //     const invertFailedVisible=(data)=> {
+    // //         for (const item of data) {
+    // //           if (item.hasOwnProperty('failedVisible')) {
+    // //             const failedVisible = item.failedVisible;
+    // //             for (const key in failedVisible) {
+    // //               if (failedVisible.hasOwnProperty(key)) {
+    // //                 failedVisible[key] = false;
+    // //               }
+    // //             }
+    // //           }
+    // //         }
+    // //       }
+     
+    // //   setNewPredictUpdate( invertFailedVisible(newPrediction))
+    // //   console.log('newResults:', newResults)
+
+    //     // await axios.put(BASE_URL, newResults).then(res => {
+    //     //     console.log(res)
+    //     //     // if (res.status === 201) {
+    //     //     //     setIsSuccessfull(true)
+    //     //     // } else {
+    //     //     //     alert('Error: Something went wrong. Please try again later.');
+
+    //     //     // }
+    //     // }).catch(error => {
+    //     //     console.log(error)
+    //     //     alert('Error: Something went wrong. Please try again later.');
+
+    //     // })
+    // }
+
     const openModal = (e) => {
         e.preventDefault()
         if (checkboxVisible === false) {
@@ -173,6 +263,7 @@ function UserPage() {
             items.regular = regular;
         }
         console.log('newPredictions:', newPredictionArr)
+        console.log('NewPredictionsObj:', newPrediction)
         await axios.post(BASE_URL, newPrediction).then(res => {
             console.log(res)
             if (res.status === 201) {
@@ -202,7 +293,6 @@ function UserPage() {
     const handlePassMark = (id) => {
         setPassVisible((prev) => ({ ...prev, [id]: true }))
         setMarksVisible((prev) => ({ ...prev, [id]: false }))
-        console.log('Markk2:', marksVisible[id])
 
     }
     const handleFailMark = (id) => {
