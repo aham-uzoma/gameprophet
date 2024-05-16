@@ -135,15 +135,21 @@ function UserPage() {
         // console.log('newResultsCopyUpdates:', newResults)
         const newMergedResults = {...newResults.passVisible,...newResults.failVisible}
         console.log('newMergedResult:', newMergedResults)
-        for (const key in newMergedResults){
-            newResultUpdates[key]= {_id:key, result:newMergedResults[key]}
-        }
-        console.log('newResultUpdates:',newResultUpdates )
+        const newResultUpdate = Object.entries(newMergedResults).map(([key, value])=>({
+            _id:key,
+            result:value,
+        }))
+        console.log('newResultUpdates:',newResultUpdate )
+
+        // for (const key in newMergedResults){
+        //     newResultUpdates[key]= {_id:key, result:newMergedResults[key]}
+        // }
+        //console.log('newResultUpdates:',newResultUpdates )
        
 
         //setResults(newMergedResults);
 
-            await axios.put(BASE_URL, newResultUpdates).then(res => {
+            await axios.put(BASE_URL, newResultUpdate).then(res => {
             console.log(res)
             // if (res.status === 201) {
             //     setIsSuccessfull(true)
@@ -156,6 +162,7 @@ function UserPage() {
             alert('Error: Something went wrong. Please try again later.');
 
         })
+        
     }
     // const handleUpdatePredictable =  () => {
     //     const newResults = { passVisible, failVisible };
