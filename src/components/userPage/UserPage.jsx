@@ -7,6 +7,8 @@ import { Checkbox } from "@material-tailwind/react";
 import PassResultSVG from '../../icons/PassResultSVG';
 import Colors from '../../utils/Colors'
 import FailResultSVG from '../../icons/FailResultSVG';
+import { useContext } from 'react';
+import PredictionDataContext from '../../context/ContextProvider';
 
 
 
@@ -29,39 +31,42 @@ function UserPage() {
     const [vip, setVip] = useState(false)
     const [passVisible, setPassVisible] = useState(false)
     const [failVisible, setFailVisible] = useState(false)
-    const [userPredictions, setUserPredictions] = useState([])
+   // const [userPredictions, setUserPredictions] = useState([])
     const [marksVisible, setMarksVisible] = useState(null);
     const [results, setResults] = useState(null)
     // const [userPredictionIds, setUserPredictionIds] = useState([])
+
+    //useContex()
+    const {userPredictions} = useContext(PredictionDataContext)
+
+
+   // const {userPredictions, setUserPredictions} = useContext(PredictionDataContext)
 
     const BASE_URL = 'http://localhost:8080/api/v1/predict';
 
     const gameInputRef = useRef()
     const oddsInputRef = useRef()
 
-    useEffect(() => {
-        axios.get(BASE_URL).then((res) => {
-            setUserPredictions(res.data)
-        }).catch((error) => console.log(error))
-    }, [])
-
-    useEffect(() => {
-        setNumPairs(userPredictions.length)
-    }, [userPredictions.length])
+    // useEffect(() => {
+    //     setNumPairs(userPredictions.length)
+    // }, [userPredictions.length])
 
     useEffect(() => {
         setMarksVisible(createInitialMarksVisible(userPredictions))
     }, [userPredictions])
    
     const createInitialMarksVisible = (userPredictions) => {
-        const userPredictionsID = userPredictions.map((predictIds)=>predictIds._id)
-       // console.log('userPredictionsId:', userPredictionsID)
-        const initialState = {};
-        for (const id of userPredictionsID) {
-            initialState[id] = true;
+        if(!userPredictions){
+           console.log('no UserPresdictions', userPredictions)
+        }else{
+            const userPredictionsID = userPredictions.map((predictIds)=>predictIds._id)
+            const initialState = {};
+            for (const id of userPredictionsID) {
+                initialState[id] = true;
+            }
+            return initialState;
         }
-       // console.log('initialState', initialState);
-        return initialState;
+
     };
     
 
@@ -116,7 +121,6 @@ function UserPage() {
 
     }
     const handleUpdatePredictable =async()=>{
-        const newResultUpdates = {};
         const newResults = {passVisible, failVisible}
         for(const key in newResults.passVisible){
             if(!newResults.passVisible[key]){
@@ -132,7 +136,6 @@ function UserPage() {
         for(const key in newResults.failVisible){
             newResults.failVisible[key] = false
         }
-        // console.log('newResultsCopyUpdates:', newResults)
         const newMergedResults = {...newResults.passVisible,...newResults.failVisible}
         console.log('newMergedResult:', newMergedResults)
         const newResultUpdate = Object.entries(newMergedResults).map(([key, value])=>({
@@ -140,14 +143,6 @@ function UserPage() {
             result:value,
         }))
         console.log('newResultUpdates:',newResultUpdate )
-
-        // for (const key in newMergedResults){
-        //     newResultUpdates[key]= {_id:key, result:newMergedResults[key]}
-        // }
-        //console.log('newResultUpdates:',newResultUpdates )
-       
-
-        //setResults(newMergedResults);
 
             await axios.put(BASE_URL, newResultUpdate).then(res => {
             console.log(res)
@@ -164,82 +159,6 @@ function UserPage() {
         })
         
     }
-    // const handleUpdatePredictable =  () => {
-    //     const newResults = { passVisible, failVisible };
-    //     console.log('newResults:', newResults);
-      
-    //     const updatedResults = {};
-    //     for (const result in newResults) {
-    //       updatedResults[result] = { ...newResults[result] }; // Create a copy of the property
-    //       if (updatedResults[result].hasOwnProperty('failVisible')) {
-    //         const failVisible = updatedResults[result].failVisible;
-    //         for (const key in failVisible) {
-    //           failVisible[key] = false;
-    //         }
-    //         // Use Object.assign to create a new object with updated failVisible
-    //         updatedResults[result] = Object.assign({}, updatedResults[result], { failVisible });
-    //       }
-    //     }
-      
-    //     console.log('newResultsUpdated:', updatedResults);
-    //   };
-      
-       
-    // const handleUpdatePredictable = () =>{
-    //     const newResultss = {passVisible, failVisible}
-    //     //newResultss.passVisible[key]
-    //     const newResultssCopy = { ...newResultss }
-    //     console.log('newResultss:', newResultss)
-    //     console.log('newResultsCopy', newResultssCopy)
-    //     //newResultCopy = {passVisible, failVisible}
-    //    // console.log('newResultsArr:', newResultsArr)
-    //    for(const result in newResultssCopy){
-    //     if(newResultssCopy[result].hasOwnProperty('failVisible')){
-    //         const failVisible = newResultssCopy[result].failVisible
-    //         //using destructuring instead of the above.
-    //        // const {failVisible} = newResultssCopy[result]
-
-    //         for(const key in failVisible){
-    //             failVisible[key] = false;
-    //         }
-    //     }
-    //    }
-    //    console.log('newResultssUpdate:', newResultssCopy)
-
-
-
-
-
-    // //     const invertFailedVisible=(data)=> {
-    // //         for (const item of data) {
-    // //           if (item.hasOwnProperty('failedVisible')) {
-    // //             const failedVisible = item.failedVisible;
-    // //             for (const key in failedVisible) {
-    // //               if (failedVisible.hasOwnProperty(key)) {
-    // //                 failedVisible[key] = false;
-    // //               }
-    // //             }
-    // //           }
-    // //         }
-    // //       }
-     
-    // //   setNewPredictUpdate( invertFailedVisible(newPrediction))
-    // //   console.log('newResults:', newResults)
-
-    //     // await axios.put(BASE_URL, newResults).then(res => {
-    //     //     console.log(res)
-    //     //     // if (res.status === 201) {
-    //     //     //     setIsSuccessfull(true)
-    //     //     // } else {
-    //     //     //     alert('Error: Something went wrong. Please try again later.');
-
-    //     //     // }
-    //     // }).catch(error => {
-    //     //     console.log(error)
-    //     //     alert('Error: Something went wrong. Please try again later.');
-
-    //     // })
-    // }
 
     const openModal = (e) => {
         e.preventDefault()
@@ -286,6 +205,9 @@ function UserPage() {
         })
 
     }
+    if (!userPredictions) {
+        return <p>Loading data...</p>;
+      }
     const handleDelete = (itemid) => {
         const predictionsLeft = newPrediction.filter((items) => items !== itemid)
         setNewPrediction(predictionsLeft)
@@ -307,9 +229,9 @@ function UserPage() {
         setMarksVisible((prev) => ({ ...prev, [id]: false }))
     }
 
+
     return (
         <section >
-            {/* mb-8 */}
             <section className='flex flex-col drop-shadow-md'>
                 <div className='flex w-screen bg-white bg-cover font-sen items-center pl-8  pb-4 ' style={{
                     height: '30vh',
@@ -330,15 +252,8 @@ function UserPage() {
                     </div>
                 </div>
             </section>
-
-
             <div className='flex-col bg-amber-50  w-screen justify-center items-center pt-8'>
-                {/* h-screen */}
-                {/* drop-shadow-md */}
-
                 <div className='grid justify-center font-sen w-screen'>
-                    {/* w-98vw 
-        style={{width:'75vw'}} */}
                     {showTable && <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '40vw' }} >
                         <thead>
                             <tr className='bg-red-600 '>
@@ -393,14 +308,10 @@ function UserPage() {
                             {checkboxVisible && <div className='flex gap-10'>
                                 <label className='flex items-center'>
                                     <Checkbox id='vipCheck' label='VIP' color='red'
-                                        // checked={checkboxState.vipCheck}
                                         checked={vip}
-                                        // ripple={true} onChange={()=>handleChecked('vipCheck')} />
                                         ripple={true} onChange={handleChecked} />
                                     <Checkbox id='regularCheck' label='Regular'
-                                        //checked={checkboxState.regularCheck}
                                         checked={regular}
-                                        //    color='red' ripple={true} onChange={()=>handleChecked('regularCheck')}/>
                                         color='red' ripple={true} onChange={handleChecked1} />
 
                                 </label>
@@ -419,8 +330,6 @@ function UserPage() {
                 <div className='flex flex-col justify-center w-screen items-center font-sen'>
                     <h1 className='text-3xl mb-5 mt-14 font-bold'>RECENT PREDICTIONS</h1>
                     <div className='grid justify-center font-sen w-screen mb-11'>
-                        {/* w-98vw 
-        style={{width:'75vw'}} */}
                         <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '40vw' }} >
                             <thead>
                                 <tr className='bg-red-600 '>
@@ -429,50 +338,49 @@ function UserPage() {
                                     <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Result</th>
                                 </tr>
                             </thead>
-                            {userPredictions.map((predict_db, index) => {
-                                const { game, odds } = predict_db
-                               // console.log('pREDICTABLEid:',predict_db._id)
-                                const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
-                                return (
-                                    <tbody key={index}>
-                                        <tr className={rowColor}>
-                                        {/* .replace(/\b\w/g, (c) => c.toUpperCase()) */}
-                                            <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
-                                            <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
-                                            <td className='flex justify-center items-center gap-6 p-4 cursor-pointer' >
-                                                {marksVisible[predict_db._id] && (<>  
-                                                <button className='h-8 w-8 text-xl rounded-full bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
-                                                    onClick={() => { handlePassMark(predict_db._id)}} type='submit'>
-                                                        <PassResultSVG color={'white'} size={30} />
-                                                </button>
-                                                <button className='h-8 w-8 text-xl rounded-full bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
-                                                        onClick={() => handleFailMark(predict_db._id)} type='submit'>
-                                                        <FailResultSVG color={'white'} />
-                                                </button>
-                                                </>)}
-                                                {passVisible[predict_db._id] && <div className='flex' onClick={() => {
-                                                    setMarksVisible((prev) => ({ ...prev, [predict_db._id]: true }))
-                                                    setPassVisible((prev) => ({ ...prev, [predict_db._id]: false }))
-                                                }}><PassResultSVG color={Colors.PASS} size={50} /></div>}
+                            {userPredictions.map((predict_db, index) => { 
+                               const { game, odds } = predict_db 
+                               const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
+                            return <tbody key={index}>
+                            <tr className={rowColor}>
+                            {/* .replace(/\b\w/g, (c) => c.toUpperCase()) */}
+                                <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                <td className='flex justify-center items-center gap-6 p-4 cursor-pointer' >
+                                    {marksVisible[predict_db._id] && (<>  
+                                    <button className='h-8 w-8 text-xl rounded-full bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
+                                        onClick={() => { handlePassMark(predict_db._id)}} type='submit'>
+                                            <PassResultSVG color={'white'} size={30} />
+                                    </button>
+                                    <button className='h-8 w-8 text-xl rounded-full bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
+                                            onClick={() => handleFailMark(predict_db._id)} type='submit'>
+                                            <FailResultSVG color={'white'} />
+                                    </button>
+                                    </>)}
+                                    {passVisible[predict_db._id] && <div className='flex' onClick={() => {
+                                        setMarksVisible((prev) => ({ ...prev, [predict_db._id]: true }))
+                                        setPassVisible((prev) => ({ ...prev, [predict_db._id]: false }))
+                                    }}><PassResultSVG color={Colors.PASS} size={50} /></div>}
 
-                                                {failVisible[predict_db._id] && <div className='flex' onClick={() => {
-                                                    setMarksVisible((prev) => ({ ...prev, [predict_db._id]: true }))
-                                                    setFailVisible((prev) => ({ ...prev, [predict_db._id]: false }))
-                                                }}><FailResultSVG color={Colors.PRIMARY} size={50} /></div>}
-                                            </td>
+                                    {failVisible[predict_db._id] && <div className='flex' onClick={() => {
+                                        setMarksVisible((prev) => ({ ...prev, [predict_db._id]: true }))
+                                        setFailVisible((prev) => ({ ...prev, [predict_db._id]: false }))
+                                    }}><FailResultSVG color={Colors.PRIMARY} size={50} /></div>}
+                                </td>
 
-                                        </tr>
-                                    </tbody>
-                                )
+                            </tr>
+                        </tbody>
                             })}
                         </table>
-                        <div className='flex mt-10'>
-                            <button className='mt-10 h-16 w-60 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
-                                onClick={handleUpdatePredictable}                             
+                        <button className=' h-16 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
+                                onClick={handleUpdatePredictable}
+                                style={{ width: '40vw' }}                             
                                 type='submit'>Save
                             </button>
-                        </div>
                     </div>
+                    <div className='flex flex-col justify-center w-screen items-center font-sen'>
+                    <h1 className='text-3xl mb-5 mt-14 font-bold'>HISTORY</h1>
+                </div>
                 </div>
             </div>
             {modalVisible && <Modal
@@ -484,5 +392,4 @@ function UserPage() {
         </section>
     )
 }
-
 export default UserPage

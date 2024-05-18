@@ -6,10 +6,12 @@ import HistoryPage from './components/historyPage/HistoryPage';
 import VipPage from './components/vipPage/VipPage';
 import Pricing from './components/pricing/Pricing';
 import UserPage from './components/userPage/UserPage';
+import { ContextProvider } from './context/ContextProvider';
 
 
 const  App =()=> {
   return (
+    <ContextProvider>
     <Routes>
       <Route path='/' element={<LayOut />}>
       <Route index element={<FrontPage />} />
@@ -19,6 +21,7 @@ const  App =()=> {
       <Route path='profilePage' element={<UserPage/>}/>
       </Route>
     </Routes>
+    </ContextProvider>
   );
 }
 
