@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import PredictionDataContext from '../../context/ContextProvider'
+import PassResultSVG from '../../icons/PassResultSVG'
+import FailResultSVG from '../../icons/FailResultSVG'
+import Colors from '../../utils/Colors'
+
 
 const HistoryPage = () => {
+    const { userPredictions } = useContext(PredictionDataContext)
+
     const footballPhoto = 'https://cdn.pixabay.com/photo/2021/08/22/20/27/corner-ball-6566084_960_720.jpg'
     return (
         <section className=' bg-amber-50 font-sen'>
@@ -32,59 +39,32 @@ const HistoryPage = () => {
                     <div>
                         {/* className='grid justify-center mx-8 my-8 w-screen' */}
                         <div >
-                            {/* shadow-2xl */}
                             <table className='bg-white border-collapse shadow-2xl text-left w-98vw' style={{ width: '60vw' }}>
                                 <thead>
                                     <tr className='bg-red-600 '>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Game</th>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Odds</th>
-                                        <th className='p-7 uppercase text-xl text-white	tracking-widest'>Result</th>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Other</th>
-                                        <th className='p-7 uppercase text-xl text-white	tracking-widest'>Scales</th>
+                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>MATCHES</th>
+                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>OPTIONS</th>
+                                        <th className='p-7 uppercase text-xl text-white	tracking-widest'>RESULT</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>RealMadrid Vs Manchester</td>
-                                        <td className='p-4'>over 3.5</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Barcelonia Vs Manchester</td>
-                                        <td className='p-4'>First Half to score</td>
-                                        <td className='p-4'>Fail</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Chelsea Vs RealMadrid</td>
-                                        <td className='p-4'>over 2.5</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Athlentico Madrid Vs Manchester</td>
-                                        <td className='p-4'>first half to score</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Chelsea Vs Bacelonia</td>
-                                        <td className='p-4'>Draw</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
+
+                        {userPredictions.map((predict_db, index) => {
+                            const { game, odds } = predict_db
+                            const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
+                         return predict_db.result === "Ongoing"? (<h1>No History Data Yet</h1>):( <tbody key={index}>
+                                    <tr className={rowColor}>
+                                        <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                        <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                        <td className='p-4'>{
+                                           predict_db.result === "true"? <PassResultSVG color={Colors.PASS} size={50} /> : 
+                                           <FailResultSVG color={Colors.PRIMARY} size={50} />
+                                        }</td>
                                     </tr>
                                 </tbody>
+                                 )})}
                             </table>
                         </div>
                     </div>
-
-                    
                 </div>
 
                 <div className='flex justify-between align-top ' style={{ width: '87vw', height: '50vh' }}>
@@ -159,82 +139,6 @@ const HistoryPage = () => {
 
                     
                 </div>
-
-
-                <div className='flex justify-between align-top ' style={{ width: '87vw', height: '50vh' }}>
-                    {/* bg-lime-500 */}
-                    <div className='flex justify-between h-20  items-center'>
-                        <div className='w-80 h-14 bg-red-600 ml-8 rounded-l-full flex justify-center items-center'>
-                            <h1 className='text-xl font-bold text-white'>July 12th 2024</h1>
-                        </div>
-                        <div>
-                            <hr className='w-10 h-1  bg-red-600 ' />
-                        </div>
-                        <div className='rounded-full w-14 h-14 bg-orange-400'>
-                        </div>
-                        <div>
-                            <hr className='w-10 h-1  bg-orange-400' />
-                        </div>
-                    </div>
-                    <div>
-                        {/* className='grid justify-center mx-8 my-8 w-screen' */}
-                        <div >
-                            {/* shadow-2xl */}
-                            <table className='bg-white border-collapse shadow-2xl text-left w-98vw' style={{ width: '60vw' }}>
-                                <thead>
-                                    <tr className='bg-red-600 '>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Game</th>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Odds</th>
-                                        <th className='p-7 uppercase text-xl text-white	tracking-widest'>Result</th>
-                                        <th className='p-7 uppercase text-xl text-white	 tracking-widest'>Other</th>
-                                        <th className='p-7 uppercase text-xl text-white	tracking-widest'>Scales</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>RealMadrid Vs Manchester</td>
-                                        <td className='p-4'>over 3.5</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Barcelonia Vs Manchester</td>
-                                        <td className='p-4'>First Half to score</td>
-                                        <td className='p-4'>Fail</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Chelsea Vs RealMadrid</td>
-                                        <td className='p-4'>over 2.5</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Athlentico Madrid Vs Manchester</td>
-                                        <td className='p-4'>first half to score</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                    <tr className="even:bg-red-100">
-                                        <td className='p-4'>Chelsea Vs Bacelonia</td>
-                                        <td className='p-4'>Draw</td>
-                                        <td className='p-4'>Pass</td>
-                                        <td className='p-4'>NILL</td>
-                                        <td className='p-4'>Stonch NILL</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    
-                </div>
-
-
             </section>
         </section>
     )

@@ -45,7 +45,7 @@ const Navbar = () => {
             onClick={goToUserProfilePage}>
               Sign-in
               </button>
-            <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
+            {/* <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} /> */}
         </div>
         </nav>
 

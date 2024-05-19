@@ -31,18 +31,14 @@ function UserPage() {
     const [vip, setVip] = useState(false)
     const [passVisible, setPassVisible] = useState(false)
     const [failVisible, setFailVisible] = useState(false)
-   // const [userPredictions, setUserPredictions] = useState([])
     const [marksVisible, setMarksVisible] = useState(null);
-    const [results, setResults] = useState(null)
-    // const [userPredictionIds, setUserPredictionIds] = useState([])
+    const [recentIsVisible, setRecentIsVisible] = useState(false)
 
     //useContex()
     const {userPredictions} = useContext(PredictionDataContext)
 
-
-   // const {userPredictions, setUserPredictions} = useContext(PredictionDataContext)
-
     const BASE_URL = 'http://localhost:8080/api/v1/predict';
+    const hasData = userPredictions?.length > 0
 
     const gameInputRef = useRef()
     const oddsInputRef = useRef()
@@ -50,6 +46,24 @@ function UserPage() {
     // useEffect(() => {
     //     setNumPairs(userPredictions.length)
     // }, [userPredictions.length])
+    useEffect(() => {
+        if(hasData){
+            console.log('Something:', userPredictions)
+            setRecentIsVisible(true)
+        }else{
+            setRecentIsVisible(false)
+        }
+    }, [userPredictions])
+
+    useEffect(()=>{
+        for(const item of userPredictions){
+            if(item.result === "Ongoing"){
+                setRecentIsVisible(false)
+            }else{
+                setRecentIsVisible(true)
+            }
+        }
+    }, [userPredictions])
 
     useEffect(() => {
         setMarksVisible(createInitialMarksVisible(userPredictions))
@@ -74,11 +88,6 @@ function UserPage() {
     //     console.log('marksVisible', marksVisible)
     // }, [ marksVisible])
 
-
-    useEffect(() => {
-        console.log('passMarkVisible:', passVisible)
-        console.log('failMarkVisible:', failVisible)
-    }, [passVisible, failVisible])
 
 
     // useEffect(()=>{
@@ -143,7 +152,6 @@ function UserPage() {
             result:value,
         }))
         console.log('newResultUpdates:',newResultUpdate )
-
             await axios.put(BASE_URL, newResultUpdate).then(res => {
             console.log(res)
             // if (res.status === 201) {
@@ -267,8 +275,8 @@ function UserPage() {
                             const rowColorClass = index % 2 === 0 ? 'bg-red-100' : '';
                             return <tbody key={index}>
                                 <tr className={rowColorClass} >
-                                    <td className='p-4'>{game.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
-                                    <td className='p-4'>{odds.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                    <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                                    <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
                                     <td className='p-4 cursor-pointer' onClick={() => handleDelete(predictions)}><TrashSVG /></td>
                                 </tr>
                             </tbody>
@@ -327,8 +335,9 @@ function UserPage() {
                         </div>
                     </form>
                 </div>
+                
                 <div className='flex flex-col justify-center w-screen items-center font-sen'>
-                    <h1 className='text-3xl mb-5 mt-14 font-bold'>RECENT PREDICTIONS</h1>
+                {recentIsVisible && <>   <h1 className='text-3xl mb-5 mt-14 font-bold'>RECENT PREDICTIONS</h1>
                     <div className='grid justify-center font-sen w-screen mb-11'>
                         <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '40vw' }} >
                             <thead>
@@ -338,18 +347,19 @@ function UserPage() {
                                     <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Result</th>
                                 </tr>
                             </thead>
+                            {console.log('SignIn:',userPredictions )}
                             {userPredictions.map((predict_db, index) => { 
                                const { game, odds } = predict_db 
-                               const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
+                               const rowColor = index % 2 === 0 ? 'bg-red-100' : '';
                             return <tbody key={index}>
                             <tr className={rowColor}>
                             {/* .replace(/\b\w/g, (c) => c.toUpperCase()) */}
                                 <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
                                 <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
-                                <td className='flex justify-center items-center gap-6 p-4 cursor-pointer' >
+                                <td className='flex justify-center items-center gap-6 p-4 cursor-pointer'>
                                     {marksVisible[predict_db._id] && (<>  
                                     <button className='h-8 w-8 text-xl rounded-full bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
-                                        onClick={() => { handlePassMark(predict_db._id)}} type='submit'>
+                                        onClick={() => handlePassMark(predict_db._id)} type='submit'>
                                             <PassResultSVG color={'white'} size={30} />
                                     </button>
                                     <button className='h-8 w-8 text-xl rounded-full bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
@@ -367,7 +377,6 @@ function UserPage() {
                                         setFailVisible((prev) => ({ ...prev, [predict_db._id]: false }))
                                     }}><FailResultSVG color={Colors.PRIMARY} size={50} /></div>}
                                 </td>
-
                             </tr>
                         </tbody>
                             })}
@@ -378,6 +387,8 @@ function UserPage() {
                                 type='submit'>Save
                             </button>
                     </div>
+                    </> 
+                }
                     <div className='flex flex-col justify-center w-screen items-center font-sen'>
                     <h1 className='text-3xl mb-5 mt-14 font-bold'>HISTORY</h1>
                 </div>

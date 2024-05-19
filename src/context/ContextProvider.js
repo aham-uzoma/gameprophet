@@ -13,14 +13,11 @@ export const ContextProvider = ({children}) => {
 
     useEffect(() => {
         axios.get(BASE_URL).then((res) => {
-            console.log(res.data)
+            console.log('UserData:',res.data)
             setUserPredictions(res.data)
         }).catch((error) => console.log(error))
     }, [])
     
-    useEffect(() => {
-      console.log('usersPredictions', userPredictions)
-  }, [userPredictions])
   
   return (
 
