@@ -18,13 +18,15 @@ const PredictTable2 = () => {
                 {userPredictions.map((predict_db, index) => {
                     const { game, odds } = predict_db
                     const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
-                    return <tbody key={index}>
+                    // predict_db.vip === "true"?
+                    return predict_db.vip === "true" && predict_db.result === "Ongoing" ? (<tbody key={index}>
                         <tr className={rowColor}>
                             <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
                             <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
                             <td className='p-4'>Ongoing..</td>
                         </tr>
                     </tbody>
+                    ): null
                 })}
             </table>
         </div>

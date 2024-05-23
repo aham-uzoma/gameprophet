@@ -6,11 +6,6 @@ import PredictionDataContext from '../../context/ContextProvider'
 
 const VipPage = () => {
 
-    const {userPredictions, setUserPredictions} = useContext(PredictionDataContext)
-    
-
-  
-
     return (
         <section className=' bg-amber-50 font-sen'>
             <section className='flex flex-col mb-8 '>

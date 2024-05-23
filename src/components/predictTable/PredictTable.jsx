@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import PredictionDataContext from '../../context/ContextProvider'
 
 const PredictTable = () => {
+    const { userPredictions } = useContext(PredictionDataContext)
+
+
+    {userPredictions.map((predict_db, index) => {
+        const { game, odds } = predict_db
+        const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
+        return predict_db.vip === "true" ? (<tbody key={index}>
+            <tr className={rowColor}>
+                <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                <td className='p-4'>Ongoing..</td>
+            </tr>
+        </tbody>
+        ): null
+    })}
+
   return (
     <div>
         <div className='grid justify-center mx-8 my-8 w-screen font-sen'>
@@ -14,43 +31,18 @@ const PredictTable = () => {
                 <th className='p-7 uppercase text-xl text-white	tracking-widest'>Scales</th> */}
             </tr>
         </thead>
-        <tbody>
-            <tr className="even:bg-red-100">
-                <td className='p-4'>RealMadrid Vs Manchester</td>
-                <td className='p-4'>over 3.5</td>
-                <td className='p-4'>Pass</td>
-                {/* <td className='p-4'>NILL</td>
-                <td className='p-4'>Stonch NILL</td>             */}
-            </tr>
-            <tr className="even:bg-red-100">
-                <td className='p-4'>Barcelonia Vs Manchester</td>
-                <td className='p-4'>First Half to score</td>
-                <td className='p-4'>Fail</td>
-                {/* <td className='p-4'>NILL</td>
-                <td className='p-4'>Stonch NILL</td>             */}
-            </tr>
-            <tr className="even:bg-red-100">
-                <td className='p-4'>Chelsea Vs RealMadrid</td>
-                <td className='p-4'>over 2.5</td>
-                <td className='p-4'>Pass</td>
-                {/* <td className='p-4'>NILL</td>
-                <td className='p-4'>Stonch NILL</td>             */}
-            </tr>
-            <tr className="even:bg-red-100">
-                <td className='p-4'>Athlentico Madrid Vs Manchester</td>
-                <td className='p-4'>first half to score</td>
-                <td className='p-4'>Pass</td>
-                {/* <td className='p-4'>NILL</td>
-                <td className='p-4'>Stonch NILL</td>             */}
-            </tr>
-            <tr className="even:bg-red-100">
-                <td className='p-4'>Chelsea Vs Bacelonia</td>
-                <td className='p-4'>Draw</td>
-                <td className='p-4'>Pass</td>
-                {/* <td className='p-4'>NILL</td>
-                <td className='p-4'>Stonch NILL</td>             */}
-            </tr>
-        </tbody>
+        {userPredictions.map((predict_db, index) => {
+                    const { game, odds } = predict_db
+                    const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
+                    return predict_db.regular === "true" && predict_db.result === "Ongoing" ? (<tbody key={index}>
+                        <tr className={rowColor}>
+                            <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                            <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
+                            <td className='p-4'>Ongoing..</td>
+                        </tr>
+                    </tbody>
+                    ): null
+                })}
         </table>
         </div>
         </div>

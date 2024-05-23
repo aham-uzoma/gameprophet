@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, } from 'react'
-import axios from '../../api/axios';
-//import axios from 'axios'
+//import axios from '../../api/axios';
+import axios from 'axios'
 import TrashSVG from '../../icons/TrashSVG'
 import Modal from '../modals/Modal'
 import { Checkbox } from "@material-tailwind/react";
@@ -24,6 +24,7 @@ function UserPage() {
     const [newPrediction, setNewPrediction] = useState([])
     const [showTable, setShowTable] = useState(false)
     const [isDataInTable, setIsDataInTable] = useState(false)
+    const [isAllChecked, setIsAllChecked] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
     const [isSucessFull, setIsSuccessfull] = useState(false)
     const [checkboxVisible, setCheckboxVisible] = useState(false)
@@ -31,18 +32,19 @@ function UserPage() {
     const [vip, setVip] = useState(false)
     const [passVisible, setPassVisible] = useState(false)
     const [failVisible, setFailVisible] = useState(false)
-    const [marksVisible, setMarksVisible] = useState(null);
+    const [marksVisible, setMarksVisible] = useState({});
     const [recentIsVisible, setRecentIsVisible] = useState(false)
 
     const [latestUserPrediction, setLatestUserPrediction] = useState([])
     //useContex()
     const { userPredictions } = useContext(PredictionDataContext)
 
-    // const BASE_URL = 'http://localhost:8080/api/v1/predict';
+     const BASE_URL = 'http://localhost:8080/api/v1/predict';
     const hasData = userPredictions?.length > 0
 
     const gameInputRef = useRef()
     const oddsInputRef = useRef()
+    const updatePredictableRef= useRef()
 
     // useEffect(() => {
     //     setNumPairs(userPredictions.length)
@@ -58,15 +60,16 @@ function UserPage() {
 
     useEffect(() => {
         // Filter the objects with "Ongoing" result and equal timestamps
-        const filteredArray = userPredictions.filter(obj => obj.result === "Ongoing");
+        const  filteredArray = userPredictions.filter(obj => obj.result === "Ongoing");
 
         //comparing timestamps as strings (not actual date objects)
-        const uniqueTimestamps = new Set(filteredArray.map(obj => obj.timeStamp))
-        const newArray = Array.from(uniqueTimestamps).map(timestamp => {
-            return filteredArray.find(obj => obj.timeStamp === timestamp)
-        });
 
-        setLatestUserPrediction(newArray)
+        // const uniqueTimestamps = new Set(filteredArray.map(obj => obj.timeStamp))
+        // const newArray = Array.from(uniqueTimestamps).map(timestamp => {
+        //     return filteredArray.find(obj => obj.timeStamp === timestamp)
+       // });
+
+        setLatestUserPrediction(filteredArray)
 
     }, [userPredictions])
 
@@ -85,14 +88,14 @@ function UserPage() {
     // }, [userPredictions])
 
     useEffect(() => {
-        setMarksVisible(createInitialMarksVisible(userPredictions))
-    }, [userPredictions])
+        setMarksVisible(createInitialMarksVisible(latestUserPrediction))
+    }, [latestUserPrediction])
 
-    const createInitialMarksVisible = (userPredictions) => {
-        if (!userPredictions) {
-            console.log('no UserPresdictions', userPredictions)
+    const createInitialMarksVisible = (latestUserPrediction) => {
+        if (!latestUserPrediction) {
+            console.log('no UserPresdictions', latestUserPrediction)
         } else {
-            const userPredictionsID = userPredictions.map((predictIds) => predictIds._id)
+            const userPredictionsID = latestUserPrediction.map((predictIds) => predictIds._id)
             const initialState = {};
             for (const id of userPredictionsID) {
                 initialState[id] = true;
@@ -103,9 +106,15 @@ function UserPage() {
     };
 
 
-    // useEffect(() => {
-    //     console.log('marksVisible', marksVisible)
-    // }, [ marksVisible])
+    useEffect(() => {
+        const isAnyKeyTrue = Object.values(marksVisible).some(value => value === true)
+
+        if(isAnyKeyTrue){
+            setIsAllChecked(true)
+        }
+        console.log('marksVisible', marksVisible)
+
+    }, [ marksVisible])
 
 
 
@@ -149,6 +158,7 @@ function UserPage() {
 
     }
     const handleUpdatePredictable = async () => {
+        
         const newResults = { passVisible, failVisible }
         for (const key in newResults.passVisible) {
             if (!newResults.passVisible[key]) {
@@ -171,7 +181,7 @@ function UserPage() {
             result: value,
         }))
         console.log('newResultUpdates:', newResultUpdate)
-        await axios.put('/', newResultUpdate).then(res => {
+        await axios.put(BASE_URL, newResultUpdate).then(res => {
             console.log(res)
             // if (res.status === 201) {
             //     setIsSuccessfull(true)
@@ -217,7 +227,7 @@ function UserPage() {
         }
         console.log('newPredictions:', newPredictionArr)
         console.log('NewPredictionsObj:', newPrediction)
-        await axios.post('/', newPrediction).then(res => {
+        await axios.post(BASE_URL, newPrediction).then(res => {
             console.log(res)
             if (res.status === 201) {
                 setIsSuccessfull(true)
@@ -402,6 +412,7 @@ function UserPage() {
                             </table>
                             <button className=' h-16 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
                                 onClick={handleUpdatePredictable}
+                                disabled={!isAllChecked}
                                 style={{ width: '40vw' }}
                                 type='submit'>Save
                             </button>
