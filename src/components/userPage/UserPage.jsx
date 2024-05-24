@@ -108,10 +108,8 @@ function UserPage() {
 
     useEffect(() => {
         const isAnyKeyTrue = Object.values(marksVisible).some(value => value === true)
-
-        if(isAnyKeyTrue){
-            setIsAllChecked(true)
-        }
+        setIsAllChecked(isAnyKeyTrue)
+        
         console.log('marksVisible', marksVisible)
 
     }, [ marksVisible])
@@ -412,7 +410,7 @@ function UserPage() {
                             </table>
                             <button className=' h-16 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
                                 onClick={handleUpdatePredictable}
-                                disabled={!isAllChecked}
+                                disabled={isAllChecked}
                                 style={{ width: '40vw' }}
                                 type='submit'>Save
                             </button>
