@@ -41,10 +41,11 @@ function UserPage() {
 
      const BASE_URL = 'http://localhost:8080/api/v1/predict';
     const hasData = userPredictions?.length > 0
+    const hasData2 = latestUserPrediction?.length > 0
 
     const gameInputRef = useRef()
     const oddsInputRef = useRef()
-    const updatePredictableRef= useRef()
+    //const updatePredictableRef= useRef()
 
     // useEffect(() => {
     //     setNumPairs(userPredictions.length)
@@ -52,11 +53,21 @@ function UserPage() {
     useEffect(() => {
         if (hasData) {
             console.log('Something:', userPredictions)
+
             setRecentIsVisible(true)
         } else {
             setRecentIsVisible(false)
         }
     }, [userPredictions])
+    useEffect(() => {
+        if (hasData2) {
+            console.log('Something2:', latestUserPrediction)
+
+            setRecentIsVisible(true)
+        } else {
+            setRecentIsVisible(false)
+        }
+    }, [latestUserPrediction])
 
     useEffect(() => {
         // Filter the objects with "Ongoing" result and equal timestamps
@@ -73,10 +84,6 @@ function UserPage() {
 
     }, [userPredictions])
 
-    useEffect(() => {
-        console.log('latestUserPrediction', latestUserPrediction)
-    }, [latestUserPrediction])
-
     // useEffect(()=>{
     //     for(const item of userPredictions){
     //         if(item.result === "Ongoing"){
@@ -86,6 +93,16 @@ function UserPage() {
     //         }
     //     }
     // }, [userPredictions])
+
+    useEffect(()=>{
+         axios.get(`${BASE_URL}/grouped-by-timestamp`).then(res => {
+            console.log(res.data)
+        }).catch(error => {
+            console.log(error)
+            alert('Error: Something went wrong. Please try again later.');
+
+        })
+    }, [])
 
     useEffect(() => {
         setMarksVisible(createInitialMarksVisible(latestUserPrediction))
@@ -240,9 +257,7 @@ function UserPage() {
         })
 
     }
-    if (!latestUserPrediction) {
-        return <p>Loading data...</p>;
-    }
+   
     const handleDelete = (itemid) => {
         const predictionsLeft = newPrediction.filter((items) => items !== itemid)
         setNewPrediction(predictionsLeft)
