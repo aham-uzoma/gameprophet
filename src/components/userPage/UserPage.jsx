@@ -94,15 +94,6 @@ function UserPage() {
     //     }
     // }, [userPredictions])
 
-    useEffect(()=>{
-         axios.get(`${BASE_URL}/grouped-by-timestamp`).then(res => {
-            console.log(res.data)
-        }).catch(error => {
-            console.log(error)
-            alert('Error: Something went wrong. Please try again later.');
-
-        })
-    }, [])
 
     useEffect(() => {
         setMarksVisible(createInitialMarksVisible(latestUserPrediction))
@@ -198,12 +189,12 @@ function UserPage() {
         console.log('newResultUpdates:', newResultUpdate)
         await axios.put(BASE_URL, newResultUpdate).then(res => {
             console.log(res)
-            // if (res.status === 201) {
-            //     setIsSuccessfull(true)
-            // } else {
-            //     alert('Error: Something went wrong. Please try again later.');
+            if (res.status === 200) {
+                handleReloadPage()
+            } else {
+                alert('Error: Something went wrong. Please try again later.');
 
-            // }
+            }
         }).catch(error => {
             console.log(error)
             alert('Error: Something went wrong. Please try again later.');

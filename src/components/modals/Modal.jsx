@@ -16,7 +16,7 @@ const Modal = ({handleSubmit,closeModal, isSucessFull, handleReloadPage,}) => {
             <div className='flex gap-5'>
             <button className='mt-10 h-16 w-60 text-xl  bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
                         onClick={closeModal} 
-                        type='submit'>Cance</button>
+                        type='submit'>Cancel</button>
             {isSucessFull? <button className='mt-10 h-16 w-60 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
                         onClick={handleReloadPage}                             
                        // disabled={!isDataInTable}
