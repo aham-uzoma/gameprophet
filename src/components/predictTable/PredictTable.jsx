@@ -3,9 +3,9 @@ import PredictionDataContext from '../../context/ContextProvider'
 
 const PredictTable = () => {
     const { userPredictions } = useContext(PredictionDataContext)
-
-
-    {userPredictions.map((predict_db, index) => {
+{console.log('userPredicTION',userPredictions)}
+{userPredictions && userPredictions.length > 0 ? (
+    userPredictions.map((predict_db, index) => {
         const { game, odds } = predict_db
         const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
         return predict_db.vip === "true" ? (<tbody key={index}>
@@ -16,7 +16,9 @@ const PredictTable = () => {
             </tr>
         </tbody>
         ): null
-    })}
+    })):(
+        <p>No predictions available</p>
+    )}
 
   return (
     <div>

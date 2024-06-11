@@ -4,6 +4,7 @@ import PredictionDataContext from '../../context/ContextProvider'
 const PredictTable2 = () => {
 
     const { userPredictions } = useContext(PredictionDataContext)
+    
 
     return (
         <div>

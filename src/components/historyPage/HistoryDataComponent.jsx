@@ -40,7 +40,8 @@ const HistoryDataComponent = ({sliceValue}) => {
                                     </tr>
                                 </thead>
                         {console.log('predictions:', predictions)}
-                        {predictions.map((predict_db, index) => {
+                    {predictions && predictions.length > 0 ? ( 
+                        predictions.map((predict_db, index) => {
                             const { game, odds } = predict_db
                             const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
                          return  <tbody key={index}>
@@ -53,7 +54,9 @@ const HistoryDataComponent = ({sliceValue}) => {
                                         }</td>
                                     </tr>
                                 </tbody>
-                                   })} 
+                                   })):(
+                                    <p>No Prediction</p>
+                                   )} 
                             </table>
                         </div>
                     </div>

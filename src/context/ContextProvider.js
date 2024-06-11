@@ -11,19 +11,55 @@ export const ContextProvider = ({children}) => {
 
 
     useEffect(() => {
-        axios.get("/").then((res) => {
-            console.log('UserData:',res.data)
-            setUserPredictions(res.data)
-        }).catch((error) => console.log(error))
-    }, [])
+        const fetchData = async () => {
+            await axios.get("/").then(
+              response=>{
+                console.log('RESPONSE:', response)
+                // if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
+                //   console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
+                //   // Handle redirect (e.g., display a login form)
+                //   window.location.href = response.request.responseURL;
 
-    useEffect(() => {
-      axios.get("/grouped-by-timestamp").then((res) => {
-          console.log('UserData:',res.data)
-          setGroupedPredictionData(res.data)
-      }).catch((error) => console.log(error))
-  }, [])
-    
+                // }else{
+                //   setUserPredictions(response.data);
+                // }
+                setUserPredictions(response.data);
+
+              }
+            ).catch(error=>{
+              console.log('ERROR1',error)
+            })
+        };
+      
+        fetchData();
+      
+      }, [setUserPredictions]);
+          
+      useEffect(() => {
+        const fetchData = async () => {
+            await axios.get("/grouped-by-timestamp").then(response=>{
+           
+              // if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
+              //   console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
+              //   // Handle redirect (e.g., display a login form)
+              //   window.location.href = response.request.responseURL;
+              // }else{
+              //   setGroupedPredictionData(response.data);
+
+              // }
+              setGroupedPredictionData(response.data);
+
+
+            }).catch(error =>{
+              console.log('ERROR', error)
+            })
+
+        };
+      
+        fetchData();
+      
+      }, [setGroupedPredictionData]); // Empty dependency array (optional for this specific case)
+
   
   return (
 
