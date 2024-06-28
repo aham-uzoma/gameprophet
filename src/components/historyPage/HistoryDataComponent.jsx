@@ -15,6 +15,7 @@ const HistoryDataComponent = ({sliceValue}) => {
                 {Object.entries(groupedPredictionData).slice(sliceValue).reverse().map(([date, predictions]) => {
                 return( <div className='flex justify-between align-top mb-8' style={{ width: '87vw' }}>
                     {/* bg-lime-500 */}
+                    {/* bg-lime-500 */}
                     <div className='flex justify-between h-20  items-center'>
                         <div className='w-80 h-14 bg-red-600 ml-8 rounded-l-full flex justify-center items-center'>
                             <h1 className='text-xl font-bold text-white'>{dayjs(date).format('dddd DD MMMM YYYY')}</h1>
