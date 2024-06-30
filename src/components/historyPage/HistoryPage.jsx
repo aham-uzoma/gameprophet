@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import PredictionDataContext from '../../context/ContextProvider'
+import AppContext from '../../context/ContextProvider'
 
 import axios from '../../api/axios'
 import HistoryDataComponent from './HistoryDataComponent';
@@ -8,7 +8,7 @@ import HistoryDataComponent from './HistoryDataComponent';
 
 const HistoryPage = () => {
     //const [isLoading, setIsLoading]= useState(false)
-    const { groupedPredictionData } = useContext(PredictionDataContext)
+    const { groupedPredictionData } = useContext(AppContext)
 
     const footballPhoto = 'https://cdn.pixabay.com/photo/2021/08/22/20/27/corner-ball-6566084_960_720.jpg'
     const BASE_URL = 'http://localhost:8080/api/v1/predict';

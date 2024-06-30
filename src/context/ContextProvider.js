@@ -2,13 +2,15 @@ import React, { createContext, useEffect, useState } from 'react'
 import axios from '../api/axios';
 
 
-const  PredictionDataContext = createContext({})
+//const  PredictionDataContext = createContext({})
+
+const AppContext = createContext({});
 
 export const ContextProvider = ({children}) => {
 
+    const [auth, setAuth] = useState({});
     const [userPredictions, setUserPredictions] = useState([])
     const [groupedPredictionData, setGroupedPredictionData] = useState({});
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,15 +41,15 @@ export const ContextProvider = ({children}) => {
         const fetchData = async () => {
             await axios.get("/grouped-by-timestamp").then(response=>{
            
-              // if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
-              //   console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
-              //   // Handle redirect (e.g., display a login form)
-              //   window.location.href = response.request.responseURL;
-              // }else{
-              //   setGroupedPredictionData(response.data);
+              if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
+                console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
+                // Handle redirect (e.g., display a login form)
+                window.location.href = response.request.responseURL;
+              }else{
+                setGroupedPredictionData(response.data);
 
-              // }
-              setGroupedPredictionData(response.data);
+              }
+             // setGroupedPredictionData(response.data);
 
 
             }).catch(error =>{
@@ -60,14 +62,20 @@ export const ContextProvider = ({children}) => {
       
       }, [setGroupedPredictionData]); // Empty dependency array (optional for this specific case)
 
-  
   return (
-
-    <PredictionDataContext.Provider value={{userPredictions, setUserPredictions,
-                                            groupedPredictionData, setGroupedPredictionData}}>
+        <AppContext.Provider
+        value={{
+          auth,
+          setAuth,
+          userPredictions,
+          setUserPredictions,
+          groupedPredictionData,
+          setGroupedPredictionData,
+        }}
+      >
         {children}
-    </PredictionDataContext.Provider>
+      </AppContext.Provider>
   )
 }
 
-export default PredictionDataContext
+export default AppContext

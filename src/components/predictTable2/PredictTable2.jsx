@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import PredictionDataContext from '../../context/ContextProvider'
+import AppContext from '../../context/ContextProvider'
 
 const PredictTable2 = () => {
 
-    const { userPredictions } = useContext(PredictionDataContext)
+    const { userPredictions } = useContext(AppContext)
     
 
     return (

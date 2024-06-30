@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import PredictionDataContext from '../../context/ContextProvider'
+import AppContext from '../../context/ContextProvider'
 
 const PredictTable = () => {
-    const { userPredictions } = useContext(PredictionDataContext)
+    const { userPredictions } = useContext(AppContext)
 {console.log('userPredicTION',userPredictions)}
 {userPredictions && userPredictions.length > 0 ? (
     userPredictions.map((predict_db, index) => {
