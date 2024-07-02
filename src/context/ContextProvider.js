@@ -41,15 +41,15 @@ export const ContextProvider = ({children}) => {
         const fetchData = async () => {
             await axios.get("/grouped-by-timestamp").then(response=>{
            
-              if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
-                console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
-                // Handle redirect (e.g., display a login form)
-                window.location.href = response.request.responseURL;
-              }else{
-                setGroupedPredictionData(response.data);
+              // if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
+              //   console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
+              //   // Handle redirect (e.g., display a login form)
+              //   window.location.href = response.request.responseURL;
+              // }else{
+              //   setGroupedPredictionData(response.data);
 
-              }
-             // setGroupedPredictionData(response.data);
+              // }
+              setGroupedPredictionData(response.data);
 
 
             }).catch(error =>{
