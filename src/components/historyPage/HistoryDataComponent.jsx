@@ -6,12 +6,16 @@ import dayjs from 'dayjs';
 import PredictionDataContext from '../../context/ContextProvider';
 
 const HistoryDataComponent = ({sliceValue}) => {
-    const { groupedPredictionData } = useContext(PredictionDataContext)
-
+    const {isLoading, groupedPredictionData } = useContext(PredictionDataContext)
+    
+    console.log("groupedPredictionData44", groupedPredictionData)
+    if (isLoading) {
+        return <p>Loading predictions...</p>;
+      }
 
   return (
                 <section className='flex flex-col justify-center'>
-                {console.log('groupedPredictionData',groupedPredictionData )}
+                {console.log('groupedPredictionData11',groupedPredictionData )}
                 {Object.entries(groupedPredictionData).slice(sliceValue).reverse().map(([date, predictions]) => {
                 return( <div className='flex justify-between align-top mb-8' style={{ width: '87vw' }}>
                     {/* bg-lime-500 */}

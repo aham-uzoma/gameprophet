@@ -37,9 +37,11 @@ function UserPage() {
 
     const [latestUserPrediction, setLatestUserPrediction] = useState([])
     //useContex()
-    const { userPredictions } = useContext(PredictionDataContext)
+    const { isLoading, userPredictions } = useContext(PredictionDataContext)
 
-     const BASE_URL = 'http://localhost:8080/api/v1/predict';
+   
+
+     const BASE_URL = 'http://localhost:3500';
     const hasData = userPredictions?.length > 0
     const hasData2 = latestUserPrediction?.length > 0
 
@@ -233,7 +235,7 @@ function UserPage() {
         }
         console.log('newPredictions:', newPredictionArr)
         console.log('NewPredictionsObj:', newPrediction)
-        await axios.post(BASE_URL, newPrediction).then(res => {
+        await axios.post('/createNewPrediction', newPrediction).then(res => {
             console.log(res)
             if (res.status === 201) {
                 setIsSuccessfull(true)
@@ -270,7 +272,9 @@ function UserPage() {
         setMarksVisible((prev) => ({ ...prev, [id]: false }))
     }
 
-
+    if (isLoading) {
+        return <p>Loading predictions...</p>;
+      }
     return (
         <section >
             <section className='flex flex-col drop-shadow-md'>
@@ -303,6 +307,7 @@ function UserPage() {
                                 <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Del.</th>
                             </tr>
                         </thead>
+                        
                         {newPrediction.map((predictions, index) => {
                             const { game, odds } = predictions
                             const rowColorClass = index % 2 === 0 ? 'bg-red-100' : '';

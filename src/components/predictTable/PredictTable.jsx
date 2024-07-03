@@ -2,7 +2,10 @@ import React, { useContext } from 'react'
 import AppContext from '../../context/ContextProvider'
 
 const PredictTable = () => {
-    const { userPredictions } = useContext(AppContext)
+    const { isLoading, userPredictions } = useContext(AppContext)
+    if (isLoading) {
+        return <p>Loading predictions...</p>;
+      }
 {console.log('userPredicTION',userPredictions)}
 {userPredictions && userPredictions.length > 0 ? (
     userPredictions.map((predict_db, index) => {

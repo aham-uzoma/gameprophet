@@ -3,8 +3,11 @@ import AppContext from '../../context/ContextProvider'
 
 const PredictTable2 = () => {
 
-    const { userPredictions } = useContext(AppContext)
+    const {isLoading, userPredictions } = useContext(AppContext)
     
+    if (isLoading) {
+        return <p>Loading predictions...</p>;
+      }
 
     return (
         <div>

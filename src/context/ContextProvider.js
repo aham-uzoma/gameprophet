@@ -11,20 +11,13 @@ export const ContextProvider = ({children}) => {
     const [auth, setAuth] = useState({});
     const [userPredictions, setUserPredictions] = useState([])
     const [groupedPredictionData, setGroupedPredictionData] = useState({});
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
-            await axios.get("/").then(
+            await axios.get("/predictions/all").then(
               response=>{
                 console.log('RESPONSE:', response)
-                // if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
-                //   console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
-                //   // Handle redirect (e.g., display a login form)
-                //   window.location.href = response.request.responseURL;
-
-                // }else{
-                //   setUserPredictions(response.data);
-                // }
                 setUserPredictions(response.data);
 
               }
@@ -37,30 +30,51 @@ export const ContextProvider = ({children}) => {
       
       }, [setUserPredictions]);
           
+      // useEffect(() => {
+      //   const fetchData = async () => {
+      //     await axios.get("/getGroupedPrediction").then(response=>{
+      //        console.log('response.data',response.data)
+      //         setGroupedPredictionData(response.data);
+
+
+      //       }).catch(error =>{
+      //         console.log('ERROR', error)
+      //       })
+
+      //   };
+      
+      //   fetchData();
+      
+      // }, [setGroupedPredictionData]); // Empty dependency array (optional for this specific case)
+
       useEffect(() => {
         const fetchData = async () => {
-            await axios.get("/grouped-by-timestamp").then(response=>{
-           
-              // if (response.status === 200 && /^<!DOCTYPE html>/.test(response.data)) {
-              //   console.error('Received HTML content instead of expected data. Likely a redirect to a login page.');
-              //   // Handle redirect (e.g., display a login form)
-              //   window.location.href = response.request.responseURL;
-              // }else{
-              //   setGroupedPredictionData(response.data);
-
-              // }
+          await axios.get("/getGroupedPrediction").then(response=>{
+            setIsLoading(true)
+             console.log('response.data',response.data)
               setGroupedPredictionData(response.data);
-
+            setIsLoading(false)
 
             }).catch(error =>{
               console.log('ERROR', error)
+              setIsLoading(false)
             })
 
-        };
+        }
       
-        fetchData();
+        fetchData()
       
-      }, [setGroupedPredictionData]); // Empty dependency array (optional for this specific case)
+      }, []); // Empty dependency array (optional for this specific case)
+
+
+      useEffect(()=>{
+        if(groupedPredictionData != {}){
+        console.log('groupedPredictionData22', groupedPredictionData)}
+      },[groupedPredictionData])
+      useEffect(()=>{
+        if(groupedPredictionData != {}){
+        console.log('groupedPredictionData33', groupedPredictionData)}
+      },[groupedPredictionData])
 
   return (
         <AppContext.Provider
@@ -71,6 +85,7 @@ export const ContextProvider = ({children}) => {
           setUserPredictions,
           groupedPredictionData,
           setGroupedPredictionData,
+          isLoading,
         }}
       >
         {children}
