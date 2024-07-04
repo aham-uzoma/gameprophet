@@ -7,6 +7,8 @@ import VipPage from './components/vipPage/VipPage';
 import Pricing from './components/pricing/Pricing';
 import UserPage from './components/userPage/UserPage';
 import { ContextProvider } from './context/ContextProvider';
+import Register from './components/register/Register';
+import LogIn from './components/logIn/LogIn';
 
 
 const  App =()=> {
@@ -15,6 +17,8 @@ const  App =()=> {
     <Routes>
       <Route path='/' element={<LayOut />}>
       <Route index element={<FrontPage />} />
+      <Route path='register' element={<Register/>}/>
+      <Route path='logIn' element={<LogIn/>}/>
       <Route path='history' element={<HistoryPage />} />
       <Route path='vip' element={<VipPage />} />
       <Route path='pricing' element={<Pricing/>}/>

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, } from 'react'
-//import axios from '../../api/axios';
-import axios from 'axios'
+import axios from '../../api/axios';
+//import axios from 'axios'
 import TrashSVG from '../../icons/TrashSVG'
 import Modal from '../modals/Modal'
 import { Checkbox } from "@material-tailwind/react";
@@ -8,7 +8,7 @@ import PassResultSVG from '../../icons/PassResultSVG';
 import Colors from '../../utils/Colors'
 import FailResultSVG from '../../icons/FailResultSVG';
 import { useContext } from 'react';
-import PredictionDataContext from '../../context/ContextProvider';
+import AppContext from '../../context/ContextProvider';
 
 
 
@@ -37,11 +37,11 @@ function UserPage() {
 
     const [latestUserPrediction, setLatestUserPrediction] = useState([])
     //useContex()
-    const { isLoading, userPredictions } = useContext(PredictionDataContext)
+    const { isLoading, userPredictions } = useContext(AppContext)
 
    
 
-     const BASE_URL = 'http://localhost:3500';
+    const BASE_URL = 'http://localhost:3500';
     const hasData = userPredictions?.length > 0
     const hasData2 = latestUserPrediction?.length > 0
 
@@ -73,7 +73,9 @@ function UserPage() {
 
     useEffect(() => {
         // Filter the objects with "Ongoing" result and equal timestamps
+        console.log('userPredictionsFF', userPredictions)
         const  filteredArray = userPredictions.filter(obj => obj.result === "Ongoing");
+        console.log('filteredArray', filteredArray)
 
         //comparing timestamps as strings (not actual date objects)
 
@@ -140,6 +142,7 @@ function UserPage() {
         setOdds(e.target.value)
         setShowWarning2(false)
     }
+
     const handleNewPredictions = (e) => {
         e.preventDefault()
         if (odds === '' && game === '') {
@@ -189,9 +192,9 @@ function UserPage() {
             result: value,
         }))
         console.log('newResultUpdates:', newResultUpdate)
-        await axios.put(BASE_URL, newResultUpdate).then(res => {
+        await axios.put('/updatePredictableResult', newResultUpdate).then(res => {
             console.log(res)
-            if (res.status === 200) {
+            if (res.status === 201) {
                 handleReloadPage()
             } else {
                 alert('Error: Something went wrong. Please try again later.');

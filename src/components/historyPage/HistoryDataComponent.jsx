@@ -3,10 +3,10 @@ import PassResultSVG from '../../icons/PassResultSVG'
 import FailResultSVG from '../../icons/FailResultSVG'
 import Colors from '../../utils/Colors'
 import dayjs from 'dayjs';
-import PredictionDataContext from '../../context/ContextProvider';
+import AppContext from '../../context/ContextProvider';
 
 const HistoryDataComponent = ({sliceValue}) => {
-    const {isLoading, groupedPredictionData } = useContext(PredictionDataContext)
+    const {isLoading, groupedPredictionData } = useContext(AppContext)
     
     console.log("groupedPredictionData44", groupedPredictionData)
     if (isLoading) {
