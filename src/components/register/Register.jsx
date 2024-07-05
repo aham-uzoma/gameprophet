@@ -1,6 +1,7 @@
 import axios from '../../api/axios'
 import React, { useState } from 'react'
 import FlashMessages from '../flashMessages/FlashMessages'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
@@ -12,6 +13,8 @@ const Register = () => {
     const [severity, setSeverity] = useState("")
     const [themessage, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+    const [showWarining1, setShowWarning1] = useState(false)
+    const navigate = useNavigate()
 
 
     const handleUserName = (e) => {
@@ -53,7 +56,10 @@ const Register = () => {
         await axios.post('/createNewUser',{username, email, password, favouriteTeam}).then(res => {
             console.log(res)
             if (res.status === 201) {
-                alert('Registration successful.');
+                alert('Registration successful.')
+                setShowWarning1(true)
+                navigate('/logIn')
+                
                // setIsSuccessfull(true)
             } else {
                 alert('Error: Something went wrong. Please try again later.');
@@ -78,6 +84,7 @@ const Register = () => {
       <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
         <form className='flex flex-col items-center p-4 bg-white w-2/5 mt-9 rounded-2xl drop-shadow-lg font-sen'
           >
+            {showWarining1 && <div className='text-green-500 font-sans' style={{fontSize:17}}>Registration Successfull !!!</div>}
                 <input
                     className='h-14 rounded-2xl border-2 mt-6 p-4 focus:outline-none focus:ring-0 focus:border-red-500 focus:border-2'
                     name="name"
