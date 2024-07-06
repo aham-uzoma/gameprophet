@@ -1,10 +1,48 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PredictTable2 from '../predictTable2/PredictTable2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import PredictionDataContext from '../../context/ContextProvider'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 const VipPage = () => {
+    const [comment, setComment] = useState('')
+    const [commentList, setCommentList] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const axiosPrivate = useAxiosPrivate();
+
+    useEffect(()=>{
+        const fetchComments =async()=>{
+            setIsLoading(true)
+            await axiosPrivate.get('/getAllComments').then(res=>{
+                setIsLoading(false)
+                console.log(res.data)
+                console.log('RESPOSES:', res)
+                setCommentList(res.data)
+            }).catch(err=>{
+                setIsLoading(false)
+                console.log('an error occored:', err)
+            })
+        } 
+
+        fetchComments()
+
+    },[])
+
+
+    const handleCommentInput =(e)=>{
+        setComment(e.target.value)
+    }
+    const handleSubmitComment = async(e)=>{
+        console.log('comment', comment)
+        await axiosPrivate.post('/comment/comments', {comment}).then(res=>{
+            console.log(res.data)
+        }).catch(error => {
+            console.log('Error: Something went wrong. Please try again later.')
+            console.log(error)
+
+        })
+    }
 
     return (
         <section className=' bg-amber-50 font-sen'>
@@ -23,14 +61,23 @@ const VipPage = () => {
                 <div className='flex flex-col mt-32 ' style={{ width: '60vw' }}>
                     <h1 className='text-xl'>Comments</h1>
                     {/* bg-emerald-300 */}
-                    <div className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4' >
+                    {console.log('COMM:', commentList)}
+                    {isLoading ? (
+                        <div className="loading-container">
+                            <p>Loading comments...</p>
+                            </div>
+                        ) : (
+                   commentList.slice().reverse().map((userComment, index)=>{
+                     const {username, content} = userComment
+
+                    return <div key={index} className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4' >
                         <div className='h-10 w-10 rounded-full bg-slate-400'></div>
                         <div className='flex justify-between' style={{ width: '55vw' }}>
                             <div className='flex flex-col '>
-                                <h1 className='font-bold text-xl'>John Uche</h1>
+                                <h1 className='font-bold text-xl'>{username}</h1>
                                 <h2>5 pm</h2>
                                 <div className='flex ' style={{ width: '49vw' }}>
-                                <h1 className='mt-2 text-xl'>This is the all in comment section of the web and the game</h1>
+                                <h1 className='mt-2 text-xl'>{content}</h1>
                                 </div>
                             </div>
                             {/* bg-stone-400  */}
@@ -40,61 +87,26 @@ const VipPage = () => {
                             </div>
                         </div>
                     </div>
-
-                    <div className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4 ' >
-                        <div className='h-10 w-10 rounded-full bg-slate-400'></div>
-                        <div className='flex justify-between '  style={{ width: '55vw' }}>
-                            <div className='flex flex-col '>
-                                <h1 className='font-bold text-xl'>Vent Bassey</h1>
-                                <h2>2 days ago</h2>
-                                <div className='flex ' style={{ width: '49vw' }}>
-                                <h1 className='mt-2 text-xl'>Just Play the game over two point five and e go enter
-                                    tho this prediction is sharp I dont see it going true, check out mine and
-                                    compare
-                                    </h1>
-                                    </div>
-                            </div>
-                            {/* bg-stone-400  */}
-                            <div className='flex justify-between w-40 h-6'>
-                            <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} />321</div>
-                            <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsDown} />83</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4' >
-                        <div className='h-10 w-10 rounded-full bg-slate-400'></div>
-                        <div className='flex justify-between' style={{ width: '55vw' }}>
-                            <div className='flex flex-col '>
-                                <h1 className='font-bold text-xl'>Cassy Praise</h1>
-                                <h2>3 days ago</h2>
-                                <div className='flex' style={{ width: '49vw' }}>
-                                <h1 className='mt-2 text-xl'>This is smart prediction quite close to what I think
-                                    would be the case, I will definitly add more games to the mix to boost my billion
-                                    naira win, my case is different, But lets see how it goes, this seasson deh tight, my people.
-                                    </h1></div>
-                            </div>
-                            <div className='flex justify-between w-40 h-6'>
-                            <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} />132</div>
-                            <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsDown} />20</div>
-                            </div>
-                        </div>
-                    </div>
+                        }))}
 
                     <div className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4' >
                         <div className='h-10 w-10 rounded-full bg-slate-400'></div>
                         <div className='flex justify-between ' style={{ width: '55vw' }}>
                             <div className='flex flex-col '>
-                                <h1 className='font-bold text-xl'>Cassy Praise</h1>
+                                <h1 className='font-bold text-xl'>Write Your Comment:</h1>
                                 <div className='flex mt-4' style={{ width: '49vw' }}>
                                 <form className=''>
-                                    <textarea className=' p-4 text-xl focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-slate-200 ' style={{ width: '45vw' }} id="myTextarea" name="comments" rows="8" cols="50"></textarea>
+                                    <textarea className=' p-4 text-xl focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-slate-200 ' style={{ width: '45vw' }} id="myTextarea" name="comments" rows="8" cols="50"
+                                    onChange={handleCommentInput}
+                                    ></textarea>
                                     <br />
                                     {/* <input type="submit" value="Submit" /> */}
                                 </form>
                                 </div>
                                 <div  className='grid justify-items-end'style={{ width: '45vw' }}>
-                                <button className='h-8 w-28 bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'>SUBMIT</button>
+                                <button className='h-8 w-28 bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
+                                onClick={handleSubmitComment}
+                                >SUBMIT</button>
                                 </div>
                             </div>
                             <div className='flex justify-between  h-6 'style={{ width: '110px' }}>
