@@ -51,6 +51,18 @@ const Navbar = () => {
             {/* <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} /> */}
         </div>
         </nav>
+        <nav className='flex justify-between items-center w-[95%] h-72 mx-auto font-sen'>
+        <ul className='flex flex-col gap-8'>
+            
+            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHome}>Home</li>
+            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHistory}>History</li>
+            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToVIP}>VIP</li>
+            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToPricing}>Subscription</li>
+            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToUserProfilePage}>My Profile</li>
+
+
+        </ul>
+        </nav>
 
     </header>
   
