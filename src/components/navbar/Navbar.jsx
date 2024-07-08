@@ -11,7 +11,7 @@ const Navbar = () => {
  const toggleMenuOption = () =>{
     const navLinks = document.querySelector('.nav-links')
     setIsMenueOpen(!isMenueOpen)
-    navLinks.classList.toggle('top-[9%]')
+    navLinks.classList.toggle('top-[7.8%]')
  }
  const navigate = useNavigate()
  const goToHome =()=> navigate('/')
@@ -26,13 +26,13 @@ const Navbar = () => {
   return (
     <>
     <header className='bg-white'>
-        <nav className='flex justify-between items-center w-[95%] h-16 mx-auto font-sen'> 
+        <nav className='flex justify-between items-center w-[90%] h-16 mx-auto font-sen mb-5 md:mb-0'> 
         {/* bg-red-500 */}
           <div className='text-lg'>
             Navbar
           </div>
-          <div className='nav-links md:static absolute bg-white left-0 top-[-100%] md:min-h-fit md:w-auto min-h-[60vh] w-full flex items-center px-5'>
-            <ul className='flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8'>
+          <div className='nav-links bg-white md:static absolute  shadow z-50  left-0 top-[-100%] md:min-h-fit md:w-auto  w-full flex items-center px-5 py-5'>
+            <ul className='flex md:flex-row flex-col bg-white md:items-center md:gap-[4vw] gap-8'>
             
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHome}>Home</li>
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHistory}>History</li>
@@ -48,10 +48,11 @@ const Navbar = () => {
             onClick={goToLogInPage}>
               Sign-in
               </button>
-            {/* <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} /> */}
+              {/* <FontAwesomeIcon icon={faBars} className='text-xl cursor-pointer ' /> */}
+            <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
         </div>
         </nav>
-        <nav className='flex justify-between items-center w-[95%] h-72 mx-auto font-sen'>
+        {/* <nav className='flex bg-white justify-between items-center w-[90%] h-72 mx-auto font-sen '>
         <ul className='flex flex-col gap-8'>
             
             <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHome}>Home</li>
@@ -62,7 +63,7 @@ const Navbar = () => {
 
 
         </ul>
-        </nav>
+        </nav> */}
 
     </header>
   

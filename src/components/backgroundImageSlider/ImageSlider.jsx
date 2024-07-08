@@ -30,14 +30,14 @@ const ImageSlider = () => {
 
   return (
     
-    <section className= "flex items-center justify-center w-screen bg-cover bg-center transition-opacity duration-1000"
+    <section className= "flex items-center h-[35vh] md:h-[65vh] justify-center w-screen bg-cover bg-center transition-opacity duration-1000"
         style={{ backgroundImage: `linear-gradient(rgba(255, 0, 0, 0.3), rgba(255, 0, 0, 0.3)), 
         url(${playPhotos[currentSlide]})`, 
         opacity: opacity, 
         transition: 'opacity 1s ease',  
-        height: '65vh'  
+        //height: '65vh'  
         }}>
-      <h5 className='text-white text-9xl font-bold font-sen' >Project x.</h5>
+      <h5 className='text-white text-7xl  md:text-9xl font-bold font-sen' >Project x.</h5>
     </section>
     
 

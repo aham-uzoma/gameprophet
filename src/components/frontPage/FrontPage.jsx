@@ -14,7 +14,7 @@ const FrontPage = () => {
       <ImageSlider />
       <PredictTable />
       <div className='flex flex-col justify-center w-screen items-center font-sen'>
-        <h1 className='text-3xl mb-5 mt-14 font-bold'>HISTORY</h1>
+        <h1 className='text-2xl md:text-3xl mb-0 mt-14 font-bold'>HISTORY</h1>
       </div>
 
     <HistoryDataComponent sliceValue={(0, -2)} />

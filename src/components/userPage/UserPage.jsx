@@ -9,6 +9,7 @@ import Colors from '../../utils/Colors'
 import FailResultSVG from '../../icons/FailResultSVG';
 import { useContext } from 'react';
 import AppContext from '../../context/ContextProvider';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 
 
@@ -38,6 +39,8 @@ function UserPage() {
     const [latestUserPrediction, setLatestUserPrediction] = useState([])
     //useContex()
     const { isLoading, userPredictions } = useContext(AppContext)
+    const axiosPrivate = useAxiosPrivate();
+
 
    
 
@@ -192,7 +195,7 @@ function UserPage() {
             result: value,
         }))
         console.log('newResultUpdates:', newResultUpdate)
-        await axios.put('/updatePredictableResult', newResultUpdate).then(res => {
+        await axiosPrivate.put('/updatePredictableResult', newResultUpdate).then(res => {
             console.log(res)
             if (res.status === 201) {
                 handleReloadPage()
@@ -238,7 +241,7 @@ function UserPage() {
         }
         console.log('newPredictions:', newPredictionArr)
         console.log('NewPredictionsObj:', newPrediction)
-        await axios.post('/createNewPrediction', newPrediction).then(res => {
+        await axiosPrivate.post('/createNewPrediction', newPrediction).then(res => {
             console.log(res)
             if (res.status === 201) {
                 setIsSuccessfull(true)
