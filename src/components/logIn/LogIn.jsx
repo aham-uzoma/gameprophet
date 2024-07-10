@@ -14,6 +14,9 @@ const LogIn = () => {
 
     const navigate = useNavigate()
 
+    const goToRegisterPage=()=> navigate('/register')
+
+
     const {setAuth} = useAuth()
 
     const location = useLocation()
@@ -58,7 +61,7 @@ const LogIn = () => {
     return (
         <div className='flex flex-col w-screen h-screen items-center bg-amber-50'>
             <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
-            <form className='flex flex-col items-center p-4 bg-white w-2/5 mt-9 rounded-2xl drop-shadow-lg font-sen'
+            <form className='flex flex-col items-center p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl drop-shadow-lg font-sen'
               >
                     <input
                         className='h-14 rounded-2xl border-2 mt-6 p-4 focus:outline-none focus:ring-0 focus:border-red-500 focus:border-2'
@@ -93,8 +96,9 @@ const LogIn = () => {
                             width: '90%',
                             }}
                         >{isLoading === true?<p>Loading...</p>: <p>LogIn</p>}</button>
-                    <div className='flex mt-4 mb-4 flex-row gap-2'>
-                    <p>You Don't have an account?</p><p className='hover:text-red-500 cursor-pointer'>Register here</p>
+                    <div className='flex mt-4 mb-4 items-center flex-col sm:flex-row gap-2'>
+                    <p>You Don't have an account?</p><p className='hover:text-red-500 cursor-pointer'
+                    onClick={goToRegisterPage}>Register here</p>
                     </div>
             </form>
         </div>

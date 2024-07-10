@@ -37,7 +37,7 @@ const Navbar = () => {
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHome}>Home</li>
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHistory}>History</li>
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToVIP}>VIP</li>
-                <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToPricing}>Subscription</li>
+                {/* <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToPricing}>Subscription</li> */}
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToUserProfilePage}>My Profile</li>
 
 

@@ -11,6 +11,7 @@ const PredictTable2 = () => {
 
     return (
         <div>
+             <div className='hidden md:grid justify-center mx-8 my-8 w-screen font-sen'>
             <table className='bg-white border-collapse shadow-2xl text-left w-98vw' style={{ width: '60vw' }}>
                 <thead>
                     <tr className='bg-red-600 '>
@@ -33,6 +34,28 @@ const PredictTable2 = () => {
                     ): null
                 })}
             </table>
+            </div>
+            {userPredictions.map((predict_db, index) => {
+                    const { game, odds } = predict_db
+                    return predict_db.vip === "true" && predict_db.result === "Ongoing" ?(
+        <div key={index} className='grid grid-cols-1 gap-4 md:hidden'>
+            <div className='flex flex-col bg-white p-4 m-3 mb-0 rounded-lg shadow gap-3'>
+          <div className='flex gap-5'>
+            <h1 className='text-gray-400 font-bold'>Match:</h1>
+            <h1 className='font-semibold'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</h1>
+          </div>
+          <div className='flex gap-4'>
+            <h1 className='text-gray-400 font-bold'>Option:</h1>
+            <h1 className='text-green-500'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</h1>
+          </div>
+          <div className='flex gap-6'>
+            <h1 className='text-gray-400 font-bold'>Result:</h1>
+            <h1 className='text-orange-600'>Ongoing...</h1>
+          </div>
+          </div>
+        </div>
+        ): null
+        })}
         </div>
     )
 }

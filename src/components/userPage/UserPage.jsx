@@ -10,6 +10,8 @@ import FailResultSVG from '../../icons/FailResultSVG';
 import { useContext } from 'react';
 import AppContext from '../../context/ContextProvider';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import useLogOutHook from '../../hooks/useLogOut';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -39,10 +41,9 @@ function UserPage() {
     const [latestUserPrediction, setLatestUserPrediction] = useState([])
     //useContex()
     const { isLoading, userPredictions } = useContext(AppContext)
-    const axiosPrivate = useAxiosPrivate();
-
-
-   
+    const axiosPrivate = useAxiosPrivate()
+    const logOut = useLogOutHook()
+    const navigate = useNavigate() 
 
     const BASE_URL = 'http://localhost:3500';
     const hasData = userPredictions?.length > 0
@@ -261,6 +262,17 @@ function UserPage() {
         const predictionsLeft = newPrediction.filter((items) => items !== itemid)
         setNewPrediction(predictionsLeft)
     }
+
+    const handleLogOut = async () =>{
+        try{
+
+            const result = await logOut()
+            navigate('/logIn')
+
+        } catch (error){
+            console.log('LogOut Failed:', error)
+        }
+    }
     const handleChecked = () => {
         // setVip((prevCheck1)=>!prevCheck1)
         setVip(!vip)
@@ -284,28 +296,30 @@ function UserPage() {
     return (
         <section >
             <section className='flex flex-col drop-shadow-md'>
-                <div className='flex w-screen bg-white bg-cover font-sen items-center pl-8  pb-4 ' style={{
+                <div className='flex  bg-white bg-cover font-sen items-center pl-8  pb-4 ' style={{
                     height: '30vh',
                 }}>
-                    <div className='flex justify-between items-center  p-5' style={{ width: '45vw' }} >
-                        <div className='bg-cyan-300 w-44 h-44 rounded-full'>
+                    <div className='flex  items-center w-[90vw] md:w-[90vw] md:p-5 p-2'>
+                        <div className='bg-cyan-300 md:w-36 w-16 h-16 md:h-36 rounded-full'>
                             <img src={require('../../assets/images/user.jpg')} alt="userImage"
                                 className='rounded-full object-cover w-full h-full' />
                         </div>
-                        <div className='flex flex-col'>
-                            <h1 className='text-red-500 text-4xl mb-4'>Welcome</h1>
-                            <div className='flex gap-2' style={{ width: '30vw' }}>
-                                <h1 className='text-4xl'>Michael Oguguoa</h1>
-                                <h1 className='text-red-500 '>admin</h1>
+                        <div className='flex flex-col w-60 md:w-[65vw] px-3'>
+                            <h1 className='text-red-500 md:text-3xl text-xl mb-4'>Welcome</h1>
+                            <div className='flex gap-2 w-96 md:w-[30vw]'>
+                                <h1 className='md:text-3xl text-xl w-60 lg:w-80 sm:w-96'>Michael Oguguoa</h1>
+                                {/* <h1 className='text-red-500 '>admin</h1> */}
                             </div>
-                            <button className='mt-20 h-16 w-60 text-xl bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'>Create Prediction</button>
+                            <div className='cursor-pointer hover:text-red-500'
+                            onClick={handleLogOut}>LogOut</div> 
+                            {/* <button className='mt-20 h-16 w-60 text-xl bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'>Create Prediction</button> */}
                         </div>
                     </div>
                 </div>
             </section>
             <div className='flex-col bg-amber-50  w-screen justify-center items-center pt-8'>
                 <div className='grid justify-center font-sen w-screen'>
-                    {showTable && <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '40vw' }} >
+                    {showTable && <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '45vw' }} >
                         <thead>
                             <tr className='bg-red-600 '>
                                 <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Game</th>
@@ -328,32 +342,24 @@ function UserPage() {
                     </table>}
                 </div>
                 <div className='flex flex-col items-center w-screen'>
-                    <form className='flex flex-col items-center p-4 bg-white w-2/5 mt-9 rounded-2xl drop-shadow-lg font-sen'
+                    <form className='flex flex-col items-center p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl drop-shadow-lg font-sen'
                         style={{ height: '50%' }}>
                         <input
-                            className='h-14 rounded-2xl border-2 mt-6 p-4 focus:outline-none focus:ring-0 focus:border-red-500 focus:border-4'
+                            className='h-14 rounded-2xl border-2 mt-6 p-4 focus:outline-none focus:ring-0
+                             focus:border-red-500 focus:border-2 font-sen text-base w-[90%]'
                             name="game"
                             placeholder="Enter the game"
                             onChange={handleGameInput}
                             ref={gameInputRef}
-                            style={{
-                                fontFamily: 'Sen',
-                                fontSize: 20,
-                                width: '90%',
-                            }}
                         />
                         {showWarining1 && <div className='text-red-500 font-sans'>Please Enter the form provided...</div>}
                         <input
-                            className='h-14 w-96 rounded-2xl mt-6  border-2 p-4 focus:outline-none focus:ring-0 focus:border-red-500 focus:border-4'
+                            className='h-14 rounded-2xl mt-6  border-2 p-4 focus:outline-none 
+                            focus:ring-0 focus:border-red-500 focus:border-2 font-sen text-base w-[90%]'
                             name="odds"
                             placeholder="Enter the odds"
                             onChange={handleOddInput}
                             ref={oddsInputRef}
-                            style={{
-                                fontFamily: 'Sen',
-                                fontSize: 20,
-                                width: '90%',
-                            }}
                         />
                         {showWarining2 && <div className='text-red-500 font-sans'>Please Enter the form provided...</div>}
                         <div className='flex mt-5 gap-4 bg-slate-400' style={{ width: '90%' }}>
@@ -370,9 +376,9 @@ function UserPage() {
                             </div>}
                         </div>
                         <div className='flex gap-6'>
-                            <button className='mt-10 h-16 w-60 text-xl bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
+                            <button className='mt-10 md:h-16 h-12 md:w-60 w-40 md:text-xl text-base bg-orange-400 hover:bg-[rgba(253,210,153,0.9)] text-white'
                                 onClick={handleNewPredictions} type='submit'>+ Add Prediction</button>
-                            <button className='mt-10 h-16 w-60 text-xl bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
+                            <button className='mt-10 md:h-16 h-12 md:w-60 w-40 md:text-xl text-base bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
                                 onClick={openModal}
                                 disabled={!isDataInTable}
                                 type='submit'>Place Prediction</button>
@@ -381,9 +387,9 @@ function UserPage() {
                 </div>
 
                 <div className='flex flex-col justify-center w-screen items-center font-sen'>
-                    {recentIsVisible && <>   <h1 className='text-3xl mb-5 mt-14 font-bold'>RECENT PREDICTIONS</h1>
+                    {recentIsVisible && <>   <h1 className='md:text-3xl text-2xl mb-5 mt-14 font-bold'>RECENT PREDICTIONS</h1>
                         <div className='grid justify-center font-sen w-screen mb-11'>
-                            <table className='bg-white border-collapse drop-shadow-lg text-left' style={{ width: '40vw' }} >
+                            <table className='bg-white border-collapse drop-shadow-lg text-left sm:w-[75vw] lg:w-[45vw]  w-[60vw]'>
                                 <thead>
                                     <tr className='bg-red-600 '>
                                         <th className='p-5 uppercase text-xl text-white	 tracking-widest'>Game</th>
@@ -425,12 +431,13 @@ function UserPage() {
                                     </tbody>
                                 })}
                             </table>
-                            <button className=' h-16 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white'
+                            <div className='flex justify-center items-center mt-5'>
+                            <button className=' h-16 text-xl bg-green-600 hover:bg-[rgb(117,250,139)] text-white sm:w-[75vw] lg:w-[45vw] w-[82vw]'
                                 onClick={handleUpdatePredictable}
                                 disabled={isAllChecked}
-                                style={{ width: '40vw' }}
                                 type='submit'>Save
                             </button>
+                            </div>
                         </div>
                     </>
                     }

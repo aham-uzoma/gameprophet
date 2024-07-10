@@ -11,6 +11,7 @@ import Register from './components/register/Register';
 import LogIn from './components/logIn/LogIn';
 import RequireAuth from './components/requireAuth/RequireAuth';
 import PersistLogIn from './components/requireAuth/PersistLogIn';
+import MyProfile from './components/userPage/MyProfile';
 
 
 const  App =()=> {
@@ -24,6 +25,9 @@ const  App =()=> {
       {/* Unprotected Routes */}
 
       <Route path='/' element={<LayOut />}>
+
+      <Route path='myProfile' element={<MyProfile/>}/>
+
 
       <Route index element={<FrontPage />} />
 
@@ -43,6 +47,7 @@ const  App =()=> {
       <Route path='vip' element={<VipPage />} />
 
       <Route path='profilePage' element={<UserPage/>}/>
+
 
       </Route>
 

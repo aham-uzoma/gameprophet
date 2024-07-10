@@ -16,6 +16,9 @@ const Register = () => {
     const [showWarining1, setShowWarning1] = useState(false)
     const navigate = useNavigate()
 
+    const goToLogInPage=()=> navigate('/logIn')
+
+
 
     const handleUserName = (e) => {
         setUsername(e.target.value)
@@ -82,7 +85,7 @@ const Register = () => {
   return (
     <div className='flex flex-col w-screen h-screen items-center bg-amber-50'> 
       <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
-        <form className='flex flex-col items-center p-4 bg-white w-2/5 mt-9 rounded-2xl drop-shadow-lg font-sen'
+        <form className='flex flex-col items-center p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl drop-shadow-lg font-sen'
           >
             {showWarining1 && <div className='text-green-500 font-sans' style={{fontSize:17}}>Registration Successfull !!!</div>}
                 <input
@@ -140,8 +143,9 @@ const Register = () => {
                         width: '90%',
                         }}
                     >Register</button>
-                <div className='flex mt-4 mb-4 flex-row gap-2'>
-                <p>You already have an account?</p><p className='hover:text-red-500 cursor-pointer'>Proceed to LogIn</p>
+                <div className='flex mt-4 mb-4 items-center flex-col sm:flex-row gap-2'>
+                <p>You already have an account?</p>
+                <p className='hover:text-red-500 cursor-pointer'onClick={goToLogInPage}>Proceed to LogIn</p>
                 </div>
                 
         </form>

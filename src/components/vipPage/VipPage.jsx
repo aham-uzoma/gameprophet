@@ -53,12 +53,12 @@ const VipPage = () => {
             </section>
             {/* bg-slate-500 */}
             <section className='flex flex-col justify-center w-screen  items-center '>
-                <h1 className='text-3xl mb-5 mt-5 font-bold'>TODAY'S PREDICTION</h1>
+                <h1 className='md:text-3xl text-2xl mb-5 mt-5 font-bold'>TODAY'S PREDICTION</h1>
                 {/* <div > */}
                 <PredictTable2 />
                 {/* </div> */}
                 {/* bg-orange-400 */}
-                <div className='flex flex-col mt-32 ' style={{ width: '60vw' }}>
+                <div className='flex flex-col mt-32 w-[85vw] md:w-[60vw]'>
                     <h1 className='text-xl'>Comments</h1>
                     {/* bg-emerald-300 */}
                     {console.log('COMM:', commentList)}
@@ -70,49 +70,49 @@ const VipPage = () => {
                    commentList.slice().reverse().map((userComment, index)=>{
                      const {username, content} = userComment
 
-                    return <div key={index} className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4' >
-                        <div className='h-10 w-10 rounded-full bg-slate-400'></div>
+                    return <div key={index} className='flex justify-between p-4 bg-white shadow mt-2 mb-4' >
+                        {/* <div className='h-10 w-10 rounded-full bg-slate-400'></div> */}
                         <div className='flex justify-between' style={{ width: '55vw' }}>
                             <div className='flex flex-col '>
-                                <h1 className='font-bold text-xl'>{username}</h1>
+                                <h1 className='font-bold text-base'>{username}</h1>
                                 <h2>5 pm</h2>
-                                <div className='flex ' style={{ width: '49vw' }}>
-                                <h1 className='mt-2 text-xl'>{content}</h1>
+                                <div className='flex w-[75vw] md:w-[49vw]'>
+                                <h1 className='mt-2 text-base'>{content}</h1>
                                 </div>
                             </div>
                             {/* bg-stone-400  */}
-                            <div className='flex justify-between w-40 h-6'>
+                            {/* <div className='flex justify-between w-40 h-6'>
                             <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} />84</div>
                             <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsDown} />110</div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                         }))}
 
-                    <div className='flex justify-between p-4 bg-white drop-shadow-md mt-2 mb-4' >
+                    <div className='flex justify-between p-4 bg-white shadow mt-2 mb-4' >
                         <div className='h-10 w-10 rounded-full bg-slate-400'></div>
-                        <div className='flex justify-between ' style={{ width: '55vw' }}>
-                            <div className='flex flex-col '>
-                                <h1 className='font-bold text-xl'>Write Your Comment:</h1>
+                        <div className='flex justify-between md:w-[55vw]'>
+                            <div className='flex flex-col w-[90vw]'>
+                                <h1 className='text-xl'>Write Your Comment:</h1>
                                 <div className='flex mt-4' style={{ width: '49vw' }}>
                                 <form className=''>
-                                    <textarea className=' p-4 text-xl focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-slate-200 ' style={{ width: '45vw' }} id="myTextarea" name="comments" rows="8" cols="50"
+                                    <textarea className=' p-4 text-base focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-slate-200 w-[75vw] md:w-[45vw] ' id="myTextarea" name="comments" rows="8" cols="50"
                                     onChange={handleCommentInput}
                                     ></textarea>
                                     <br />
                                     {/* <input type="submit" value="Submit" /> */}
                                 </form>
                                 </div>
-                                <div  className='grid justify-items-end'style={{ width: '45vw' }}>
+                                <div  className='grid justify-items-end md:w-[45vw] w-[75vw]'>
                                 <button className='h-8 w-28 bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'
                                 onClick={handleSubmitComment}
                                 >SUBMIT</button>
                                 </div>
                             </div>
-                            <div className='flex justify-between  h-6 'style={{ width: '110px' }}>
+                            {/* <div className='flex justify-between  h-6 'style={{ width: '110px' }}>
                             <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} />500</div>
                             <div className='cursor-pointer'><FontAwesomeIcon icon={faThumbsDown} />200</div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
