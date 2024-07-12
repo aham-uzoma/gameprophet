@@ -12,6 +12,7 @@ import AppContext from '../../context/ContextProvider';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useLogOutHook from '../../hooks/useLogOut';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 
 
@@ -44,6 +45,7 @@ function UserPage() {
     const axiosPrivate = useAxiosPrivate()
     const logOut = useLogOutHook()
     const navigate = useNavigate() 
+    const {username} = useAuth()
 
     const BASE_URL = 'http://localhost:3500';
     const hasData = userPredictions?.length > 0
@@ -307,7 +309,7 @@ function UserPage() {
                         <div className='flex flex-col w-60 md:w-[65vw] px-3'>
                             <h1 className='text-red-500 md:text-3xl text-xl mb-4'>Welcome</h1>
                             <div className='flex gap-2 w-96 md:w-[30vw]'>
-                                <h1 className='md:text-3xl text-xl w-60 lg:w-80 sm:w-96'>Michael Oguguoa</h1>
+                                <h1 className='md:text-3xl text-xl w-60 lg:w-80 sm:w-96'>{username}</h1>
                                 {/* <h1 className='text-red-500 '>admin</h1> */}
                             </div>
                             <div className='cursor-pointer hover:text-red-500'
@@ -442,7 +444,7 @@ function UserPage() {
                     </>
                     }
                     <div className='flex flex-col justify-center w-screen items-center font-sen'>
-                        <h1 className='text-3xl mb-5 mt-14 font-bold'>HISTORY</h1>
+                        <h1 className='text-3xl mb-5 mt-14 font-bold'>PREDICT</h1>
                     </div>
                 </div>
             </div>

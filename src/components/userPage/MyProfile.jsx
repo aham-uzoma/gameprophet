@@ -1,6 +1,8 @@
 import React from 'react'
+import useAuth from '../../hooks/useAuth'
 
 const MyProfile = () => {
+  const {username,email, favouriteTeam,} = useAuth()
   return (
     <div className='flex flex-col w-screen items-center h-screen bg-amber-50'>
     {/* <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} /> */}
@@ -8,15 +10,15 @@ const MyProfile = () => {
       >
         <div className='flex gap-3 m-4'>
           <h1 className='text-gray-400 font-bold'>Username:</h1> 
-          <h1>Meta Max</h1> 
+          <h1>{username}</h1> 
         </div>
         <div className='flex gap-3 m-4'>
           <h1 className='text-gray-400 font-bold'>Email:</h1> 
-          <h1>metamax@gmail.com</h1> 
+          <h1>{email}</h1> 
         </div>
         <div className='flex gap-3 m-4'>
           <h1 className='text-gray-400 font-bold'>Fan Club:</h1> 
-          <h1>Real Madrid</h1> 
+          <h1>{favouriteTeam}</h1> 
         </div>
         <div className='flex gap-3 m-4'>
           <h1 className='text-gray-400 font-bold'>Account Type:</h1> 

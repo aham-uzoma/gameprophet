@@ -1,12 +1,15 @@
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 // import {soccer1} from './assets/images'
 
 
 const Navbar = () => {
     const [isMenueOpen, setIsMenueOpen] = useState(false)
+
+    const {auth, isAdmin} = useAuth() 
 
  const toggleMenuOption = () =>{
     const navLinks = document.querySelector('.nav-links')
@@ -19,9 +22,8 @@ const Navbar = () => {
  const goToPricing =()=> navigate('/pricing')
  const goToVIP =()=> navigate('/vip')
  const goToUserProfilePage=()=> navigate('/profilePage')
+ const goToMyProfilePage=()=> navigate('/myProfile')
  const goToLogInPage=()=> navigate('/logIn')
-
-
 
   return (
     <>
@@ -38,7 +40,9 @@ const Navbar = () => {
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHistory}>History</li>
                 <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToVIP}>VIP</li>
                 {/* <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToPricing}>Subscription</li> */}
-                <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToUserProfilePage}>My Profile</li>
+                <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToMyProfilePage}>My Profile</li>
+                {isAdmin && <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToUserProfilePage}>Admin</li>}
+
 
 
             </ul>

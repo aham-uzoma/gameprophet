@@ -34,7 +34,14 @@ const LogIn = () => {
         e.preventDefault()
          axiosWithCredentials.post('/auth', {email, password}).then(res =>{
             const accessToken = res?.data?.accessToken
-            setAuth({email, accessToken})
+            // const roles = res?.data?.roles
+            // const username = res?.data?.username
+            // const favouriteTeam = res?.data?.favouriteTeam
+            // console.log('RES.DATA', res.data)
+            // console.log('ROLES DATA', roles )
+            // console.log('RES', res)
+           // setAuth({email, roles, username, accessToken, favouriteTeam})
+           setAuth({accessToken})
             alert('LogIn successful !!!')
             navigate('/vip')
             // navigate(from, {replace: true})

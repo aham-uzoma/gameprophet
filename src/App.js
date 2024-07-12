@@ -26,9 +26,6 @@ const  App =()=> {
 
       <Route path='/' element={<LayOut />}>
 
-      <Route path='myProfile' element={<MyProfile/>}/>
-
-
       <Route index element={<FrontPage />} />
 
       <Route path='register' element={<Register/>}/>
@@ -42,12 +39,17 @@ const  App =()=> {
       {/* Protected Routes */}
       <Route element={<PersistLogIn/>}>
 
-      <Route element={<RequireAuth />}>
+      <Route element={<RequireAuth allowedRoles={[3012]}/>}>
 
       <Route path='vip' element={<VipPage />} />
 
-      <Route path='profilePage' element={<UserPage/>}/>
+      <Route path='myProfile' element={<MyProfile/>}/>
 
+      </Route>
+
+      <Route element={<RequireAuth allowedRoles={[5601]}/>}>
+
+      <Route path='profilePage' element={<UserPage/>}/>
 
       </Route>
 
