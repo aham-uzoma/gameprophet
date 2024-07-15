@@ -4,7 +4,7 @@ import axios, { axiosWithCredentials } from '../../api/axios'
 import useAuth from '../../hooks/useAuth'
 import FlashMessages from '../flashMessages/FlashMessages'
 
-const LogIn = () => {
+const LogIn = ({isLoggedIn, setIsLoggedIn}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -43,7 +43,9 @@ const LogIn = () => {
            // setAuth({email, roles, username, accessToken, favouriteTeam})
            setAuth({accessToken})
             alert('LogIn successful !!!')
-            navigate('/vip')
+            setIsLoggedIn(true)
+           // navigate('/vip')
+           navigate('/verifyEmail')
             // navigate(from, {replace: true})
          }
          ).catch(

@@ -4,12 +4,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import PredictionDataContext from '../../context/ContextProvider'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import { useNavigate } from 'react-router-dom'
+import AppContext from '../../context/ContextProvider'
 
 const VipPage = () => {
     const [comment, setComment] = useState('')
     const [commentList, setCommentList] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate()
+    const {isVerified} = useContext(AppContext)
+
+
+    useEffect(()=>{
+        if (isVerified == true) {
+            console.log('isVerified', isVerified)
+                return navigate('/verifyEmail')
+            }
+    },[])
 
     useEffect(()=>{
         const fetchComments =async()=>{

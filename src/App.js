@@ -12,9 +12,14 @@ import LogIn from './components/logIn/LogIn';
 import RequireAuth from './components/requireAuth/RequireAuth';
 import PersistLogIn from './components/requireAuth/PersistLogIn';
 import MyProfile from './components/userPage/MyProfile';
+import VerifyEmail from './components/verifyEmail/VerifyEmail';
+import { useState } from 'react';
 
 
 const  App =()=> {
+  const [verified, setVerified] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
 
   return (
 
@@ -30,16 +35,19 @@ const  App =()=> {
 
       <Route path='register' element={<Register/>}/>
 
-      <Route path='logIn' element={<LogIn/>}/>
+      <Route path='logIn' element={<LogIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
 
       <Route path='history' element={<HistoryPage />} />
 
       <Route path='pricing' element={<Pricing/>}/>
 
+      <Route path='verifyEmail' element={<VerifyEmail verified={verified} setVerified={setVerified}/>}/>
+
+
       {/* Protected Routes */}
       <Route element={<PersistLogIn/>}>
 
-      <Route element={<RequireAuth allowedRoles={[3012]}/>}>
+      <Route element={isLoggedIn && verified?<RequireAuth allowedRoles={[3012]}/>:<VerifyEmail />}>
 
       <Route path='vip' element={<VipPage />} />
 
