@@ -6,11 +6,15 @@ import PredictionDataContext from '../../context/ContextProvider'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import { useNavigate } from 'react-router-dom'
 import AppContext from '../../context/ContextProvider'
+import FlashMessages from '../flashMessages/FlashMessages'
 
 const VipPage = () => {
     const [comment, setComment] = useState('')
     const [commentList, setCommentList] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [severity, setSeverity] = useState("")
+    const [themessage, setMessage] = useState("")
+    const [open, setOpen] = useState(false)
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate()
     const {isVerified} = useContext(AppContext)
@@ -41,12 +45,26 @@ const VipPage = () => {
 
     },[])
 
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return
+        }
+        setOpen(false)
+    
+      }
+
 
     const handleCommentInput =(e)=>{
         setComment(e.target.value)
     }
     const handleSubmitComment = async(e)=>{
-        console.log('comment', comment)
+        if(comment == ''){
+            setSeverity('error')
+            setMessage('Please type in your comment')
+            setOpen(true)
+        }else{
+            console.log('comment', comment)
         await axiosPrivate.post('/comment/comments', {comment}).then(res=>{
             console.log(res.data)
         }).catch(error => {
@@ -54,10 +72,14 @@ const VipPage = () => {
             console.log(error)
 
         })
+         window.location.reload();
+        }
+        
     }
 
     return (
         <section className=' bg-amber-50 font-sen'>
+          <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
             <section className='flex flex-col mb-8 '>
                 <div className='flex w-screen bg-orange-400 bg-cover items-center pl-8' style={{ height: '30vh' }}>
                     <h1 className='text-3xl font-bold text-white'>VIP.</h1>
@@ -87,7 +109,7 @@ const VipPage = () => {
                         <div className='flex justify-between' style={{ width: '55vw' }}>
                             <div className='flex flex-col '>
                                 <h1 className='font-bold text-base'>{username}</h1>
-                                <h2>5 pm</h2>
+                                {/* <h2>5 pm</h2> */}
                                 <div className='flex w-[75vw] md:w-[49vw]'>
                                 <h1 className='mt-2 text-base'>{content}</h1>
                                 </div>

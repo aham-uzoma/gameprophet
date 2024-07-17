@@ -1,5 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
-import axios from '../api/axios';
+import axios, { axiosWithCredentials } from '../api/axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+
 
 
 //const  PredictionDataContext = createContext({})
@@ -10,7 +12,8 @@ export const ContextProvider = ({children}) => {
 
     const [auth, setAuth] = useState({});
     const [userPredictions, setUserPredictions] = useState([])
-    const [groupedPredictionData, setGroupedPredictionData] = useState({});
+    const [groupedPredictionData, setGroupedPredictionData] = useState({})
+    const [userCount, setUserCount] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -29,6 +32,22 @@ export const ContextProvider = ({children}) => {
         fetchData();
       
       }, [setUserPredictions]);
+
+    useEffect(()=>{
+      const fetchUserCount = async () =>{
+        await axios.get('getCount/userCount').then(
+          response=>{
+            setUserCount(response.data.userCount)
+            console.log('UserCountError',response.data.userCount)
+          }
+        ).catch(error=>{
+          console.log('UserCountError', error)
+        })
+      }
+
+      fetchUserCount()
+
+    },[setUserCount])
           
       // useEffect(() => {
       //   const fetchData = async () => {
@@ -81,6 +100,8 @@ export const ContextProvider = ({children}) => {
         value={{
           auth,
           setAuth,
+          userCount,
+          setUserCount,
           userPredictions,
           setUserPredictions,
           groupedPredictionData,

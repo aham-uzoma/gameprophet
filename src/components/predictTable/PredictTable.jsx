@@ -47,7 +47,8 @@ const PredictTable = () => {
                             <td className='p-4'>Ongoing..</td>
                         </tr>
                     </tbody>
-                    ): null
+                    ): (null
+                    )
                 })}
         </table>
         </div>

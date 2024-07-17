@@ -50,7 +50,15 @@ const HistoryDataComponent = ({sliceValue}) => {
                         predictions.map((predict_db, index) => {
                             const { game, odds } = predict_db
                             const rowColor = index % 2 === 0 ? 'bg-red-100' : ''
-                         return  predict_db.result === "Ongoing" ? null : (<tbody key={index}>
+                         return  predict_db.result === "Ongoing" ? (<tbody key={index}>
+                            <tr className={rowColor}>
+                                <td className='p-4'>xxxx-VIP Only</td>
+                                <td className='p-4'>xxxx-VIP Only</td>
+                                <td className='p-4'>Sign-Up as VIP to View</td>
+                            </tr>
+                        </tbody>
+                        ) : (
+                        <tbody key={index}>
                                     <tr className={rowColor}>
                                         <td className='p-4'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>
                                         <td className='p-4'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</td>

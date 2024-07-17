@@ -30,8 +30,8 @@ const Navbar = () => {
     <header className='bg-white'>
         <nav className='flex justify-between items-center w-[90%] h-16 mx-auto font-sen mb-5 md:mb-0'> 
         {/* bg-red-500 */}
-          <div className='text-lg'>
-            Navbar
+          <div className='text-xl md:text-2xl font-bold text-red-600'>
+            GAME-PROPHET
           </div>
           <div className='nav-links bg-white md:static absolute  shadow z-50  left-0 top-[-100%] md:min-h-fit md:w-auto  w-full flex items-center px-5 py-5'>
             <ul className='flex md:flex-row flex-col bg-white md:items-center md:gap-[4vw] gap-8'>
@@ -56,18 +56,6 @@ const Navbar = () => {
             <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
         </div>
         </nav>
-        {/* <nav className='flex bg-white justify-between items-center w-[90%] h-72 mx-auto font-sen '>
-        <ul className='flex flex-col gap-8'>
-            
-            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHome}>Home</li>
-            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToHistory}>History</li>
-            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToVIP}>VIP</li>
-            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToPricing}>Subscription</li>
-            <li className='hover:text-red-500 text-base cursor-pointer' onClick={goToUserProfilePage}>My Profile</li>
-
-
-        </ul>
-        </nav> */}
 
     </header>
   

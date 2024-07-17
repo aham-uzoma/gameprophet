@@ -1,8 +1,25 @@
 import React from 'react'
+import useLogOutHook from '../../hooks/useLogOut';
 import useAuth from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const MyProfile = () => {
   const {username,email, favouriteTeam,} = useAuth()
+  const logOut = useLogOutHook()
+  const navigate = useNavigate() 
+
+  const handleLogOut = async () =>{
+    try{
+
+        const result = await logOut()
+        window.location.reload();
+        //navigate('/logIn')
+
+    } catch (error){
+        console.log('LogOut Failed:', error)
+    }
+}
+
   return (
     <div className='flex flex-col w-screen items-center h-screen bg-amber-50'>
     {/* <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} /> */}
@@ -29,7 +46,7 @@ const MyProfile = () => {
           <h1 className='text-green-500 font-bold'>SubScribed_ Expires in 10 days</h1> 
         </div>
 
-        <div className='flex gap-3 m-4'><h1 className='text-gray-400 font-bold hover:text-red-600 cursor-pointer'>LogOut_</h1></div>
+        <div className='flex gap-3 m-4'><h1 className='text-gray-400 font-bold hover:text-red-600 cursor-pointer' onClick={handleLogOut}>LogOut_</h1></div>
 
             {/* <div className='flex mt-4 mb-4 items-center flex-col sm:flex-row gap-2'>
             <p>You Don't have an account?</p><p className='hover:text-red-500 cursor-pointer'>Register here</p>

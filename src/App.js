@@ -35,7 +35,10 @@ const  App =()=> {
 
       <Route path='register' element={<Register/>}/>
 
-      <Route path='logIn' element={<LogIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
+      <Route path='logIn' element={<LogIn isLoggedIn={isLoggedIn} 
+                                          setIsLoggedIn={setIsLoggedIn} 
+                                          verified={verified} 
+                                          setVerified={setVerified}/>}/>
 
       <Route path='history' element={<HistoryPage />} />
 
@@ -47,7 +50,7 @@ const  App =()=> {
       {/* Protected Routes */}
       <Route element={<PersistLogIn/>}>
 
-      <Route element={isLoggedIn && verified?<RequireAuth allowedRoles={[3012]}/>:<VerifyEmail />}>
+      <Route element={<RequireAuth allowedRoles={[3012]}/>}>
 
       <Route path='vip' element={<VipPage />} />
 

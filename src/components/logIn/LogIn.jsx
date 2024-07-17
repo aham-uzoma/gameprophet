@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios, { axiosWithCredentials } from '../../api/axios'
 import useAuth from '../../hooks/useAuth'
 import FlashMessages from '../flashMessages/FlashMessages'
+import { jwtDecode } from "jwt-decode";
 
-const LogIn = ({isLoggedIn, setIsLoggedIn}) => {
+
+const LogIn = ({isLoggedIn, setIsLoggedIn, verified, setVerified}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [severity, setSeverity] = useState("")
     const [themessage, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+    const {isVerified} = useAuth()
 
     const navigate = useNavigate()
 
@@ -31,22 +34,25 @@ const LogIn = ({isLoggedIn, setIsLoggedIn}) => {
     }
 
     const handleSubmitLogin = (e) =>{
+        console.log(isVerified)
+
         e.preventDefault()
          axiosWithCredentials.post('/auth', {email, password}).then(res =>{
             const accessToken = res?.data?.accessToken
-            // const roles = res?.data?.roles
-            // const username = res?.data?.username
-            // const favouriteTeam = res?.data?.favouriteTeam
-            // console.log('RES.DATA', res.data)
-            // console.log('ROLES DATA', roles )
-            // console.log('RES', res)
-           // setAuth({email, roles, username, accessToken, favouriteTeam})
-           setAuth({accessToken})
-            alert('LogIn successful !!!')
-            setIsLoggedIn(true)
-           // navigate('/vip')
-           navigate('/verifyEmail')
-            // navigate(from, {replace: true})
+           if(accessToken){
+            const decoded = jwtDecode(accessToken)
+            const {isVerified} = decoded.UserInfo
+            if(isVerified === true){
+                setAuth({accessToken})
+                alert('LogIn successful !!!')
+                setIsLoggedIn(true)
+                navigate('/vip')
+            }else{
+                setSeverity('error')
+                setMessage("Please Verify Your Email (we sent a mail), check your spam folder if you don't see the mail in the main folder..")
+                setOpen(true)
+            }    
+        }       // navigate(from, {replace: true})
          }
          ).catch(
             error => {
@@ -56,6 +62,7 @@ const LogIn = ({isLoggedIn, setIsLoggedIn}) => {
                 setOpen(true)
             }
          )
+       
     }
 
     const handleClose = (event, reason) => {

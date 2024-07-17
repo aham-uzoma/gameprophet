@@ -13,6 +13,8 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useLogOutHook from '../../hooks/useLogOut';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import ProfilePicc from '../../assets/ProfilePicc';
+import Paid from '../../assets/Paid';
 
 
 
@@ -41,7 +43,7 @@ function UserPage() {
 
     const [latestUserPrediction, setLatestUserPrediction] = useState([])
     //useContex()
-    const { isLoading, userPredictions } = useContext(AppContext)
+    const { isLoading, userPredictions, userCount } = useContext(AppContext)
     const axiosPrivate = useAxiosPrivate()
     const logOut = useLogOutHook()
     const navigate = useNavigate() 
@@ -269,7 +271,8 @@ function UserPage() {
         try{
 
             const result = await logOut()
-            navigate('/logIn')
+            window.location.reload();
+            //navigate('/logIn')
 
         } catch (error){
             console.log('LogOut Failed:', error)
@@ -298,10 +301,10 @@ function UserPage() {
     return (
         <section >
             <section className='flex flex-col drop-shadow-md'>
-                <div className='flex  bg-white bg-cover font-sen items-center pl-8  pb-4 ' style={{
+                <div className='flex flex-col md:flex-row items-start bg-white bg-cover font-sen md:items-center pl-8  pb-4 ' style={{
                     height: '30vh',
                 }}>
-                    <div className='flex  items-center w-[90vw] md:w-[90vw] md:p-5 p-2'>
+                    <div className='flex items-center w-[90vw] md:w-[80vw] md:p-5 p-2'>
                         <div className='bg-cyan-300 md:w-36 w-16 h-16 md:h-36 rounded-full'>
                             <img src={require('../../assets/images/user.jpg')} alt="userImage"
                                 className='rounded-full object-cover w-full h-full' />
@@ -317,6 +320,10 @@ function UserPage() {
                             {/* <button className='mt-20 h-16 w-60 text-xl bg-red-600 hover:bg-[rgba(252,124,124,0.9)] text-white'>Create Prediction</button> */}
                         </div>
                     </div>
+                    <div className='flex flex-col gap-3 mt-4'>
+                           <div className='flex gap-2 items-center'><ProfilePicc/><p className='text-red-600 text-xl font-bold'>{userCount}</p></div> 
+                           <div className='flex gap-2 items-center'><Paid/><p className='text-red-600 text-xl font-bold'>0</p></div>
+                        </div>
                 </div>
             </section>
             <div className='flex-col bg-amber-50  w-screen justify-center items-center pt-8'>
