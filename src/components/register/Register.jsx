@@ -59,7 +59,8 @@ const Register = () => {
         await axios.post('/createNewUser',{username, email, password, favouriteTeam}).then(res => {
             console.log(res)
             if (res.status === 201) {
-                alert('Registration successful.')
+                // alert('Registration successful.')
+                console.log('Registration successful.')
                 setShowWarning1(true)
                 navigate('/logIn')
                 

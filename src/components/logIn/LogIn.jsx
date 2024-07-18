@@ -39,21 +39,26 @@ const LogIn = ({isLoggedIn, setIsLoggedIn, verified, setVerified}) => {
         e.preventDefault()
          axiosWithCredentials.post('/auth', {email, password}).then(res =>{
             const accessToken = res?.data?.accessToken
-           if(accessToken){
-            const decoded = jwtDecode(accessToken)
-            const {isVerified} = decoded.UserInfo
-            if(isVerified === true){
-                setAuth({accessToken})
+            setAuth({accessToken})
                 //alert('LogIn successful !!!')
                 console.log('LogIn successful !!!')
                 setIsLoggedIn(true)
                 navigate('/vip')
-            }else{
-                setSeverity('error')
-                setMessage("Please Verify Your Email (we sent a mail), check your spam folder if you don't see the mail in the main folder..")
-                setOpen(true)
-            }    
-        }       // navigate(from, {replace: true})
+        //    if(accessToken){
+        //     const decoded = jwtDecode(accessToken)
+        //     const {isVerified} = decoded.UserInfo
+        //     if(isVerified === true){
+        //         setAuth({accessToken})
+        //         //alert('LogIn successful !!!')
+        //         console.log('LogIn successful !!!')
+        //         setIsLoggedIn(true)
+        //         navigate('/vip')
+        //     }else{
+        //         setSeverity('error')
+        //         setMessage("Please Verify Your Email (we sent a mail), check your spam folder if you don't see the mail in the main folder..")
+        //         setOpen(true)
+        //     }    
+        // }       // navigate(from, {replace: true})
          }
          ).catch(
             error => {
