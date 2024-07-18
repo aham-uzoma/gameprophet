@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className='flex flex-col justify-center items-center font-sen w-[100%] bg-red-600 p-9'>
       <div className='flex lg:flex-row items-center lg:items-baseline flex-col justify-between w-[80%]'>
         <div className='flex w-32 h-32' data-aos='fade-up' data-aos-delay='1000'>
-            <h1 className='text-white'>GAME-PROPHET LOGO HERE</h1>
+            <h1 className='text-white font-bold'>GAME-PROPHET.</h1>
           {/* <img src={require('../../assets/casa.png')} alt='casaLogo' /> */}
         </div>
         <div className='links_ul' data-aos='fade-up' data-aos-delay='1200'>
