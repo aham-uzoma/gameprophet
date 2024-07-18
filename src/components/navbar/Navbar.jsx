@@ -17,12 +17,12 @@ const Navbar = () => {
     navLinks.classList.toggle('top-[7.8%]')
  }
  const navigate = useNavigate()
- const goToHome =()=> navigate('/')
- const goToHistory =()=> navigate('/history')
+ const goToHome =()=> navigate('/');setIsMenueOpen(false)
+ const goToHistory =()=> navigate('/history');setIsMenueOpen(false)
  const goToPricing =()=> navigate('/pricing')
- const goToVIP =()=> navigate('/vip')
- const goToUserProfilePage=()=> navigate('/profilePage')
- const goToMyProfilePage=()=> navigate('/myProfile')
+ const goToVIP =()=> navigate('/vip');setIsMenueOpen(false)
+ const goToUserProfilePage=()=> navigate('/profilePage');setIsMenueOpen(false)
+ const goToMyProfilePage=()=> navigate('/myProfile');setIsMenueOpen(false)
  const goToLogInPage=()=> navigate('/logIn')
 
   return (
@@ -48,10 +48,10 @@ const Navbar = () => {
             </ul>
           </div>
         <div className='flex items-center gap-6'>
-            <button className='bg-[#f33f3f] text-white px-5 py-2 rounded-full hover:bg-[rgba(252,124,124,0.9)]'
+            {/* <button className='bg-[#f33f3f] text-white px-5 py-2 rounded-full hover:bg-[rgba(252,124,124,0.9)]'
             onClick={goToLogInPage}>
               Sign-in
-              </button>
+              </button> */}
               {/* <FontAwesomeIcon icon={faBars} className='text-xl cursor-pointer ' /> */}
             <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
         </div>

@@ -72,7 +72,8 @@ const VipPage = () => {
             console.log(error)
 
         })
-         window.location.reload();
+         window.location.reload()
+         setTimeout(() => window.scrollTo(0, 0), 0)
         }
         
     }
