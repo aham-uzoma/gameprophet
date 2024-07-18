@@ -97,24 +97,39 @@ const HistoryDataComponent = ({sliceValue}) => {
                     {predictions && predictions.length > 0 ? ( 
                         predictions.map((predict_db, index) => {
                             const { game, odds } = predict_db
-                 return <div key={index} className='flex flex-col bg-white p-4 m-3 mb-0 rounded-lg shadow gap-3'>
+                 return  predict_db.result === "Ongoing" ? (  <div key={index} className='flex flex-col bg-white p-4 m-3 mb-0 rounded-lg shadow gap-3'>
                     <div className='flex gap-5'>
                         <h1 className='text-gray-400 font-bold'>Match:</h1>
-                        <h1 className='font-semibold'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</h1>
+                        <h1 className='font-semibold'>xxxx-VIP Only</h1>
                      </div>
                      <div className='flex gap-4'>
                         <h1 className='text-gray-400 font-bold'>Option:</h1>
-                        <h1 className='text-green-500'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</h1>
+                        <h1 className='text-green-500'>xxxx-VIP Only</h1>
                     </div>
                     <div className='flex gap-6'>
                         <h1 className='text-gray-400 font-bold'>Result:</h1>
-                        <div>{
-                            predict_db.result === "true"? <PassResultSVG color={Colors.PASS} size={30} /> : predict_db.result === "Ongoing"? <p>Ongoing...</p> :
-                            <FailResultSVG color={Colors.PRIMARY} size={30} />
-                        }</div>
+                        <div>Sign-Up as VIP to View</div>
                     </div>
                     </div >
-                     })):(
+                    ):(
+                        <div key={index} className='flex flex-col bg-white p-4 m-3 mb-0 rounded-lg shadow gap-3'>
+                        <div className='flex gap-5'>
+                            <h1 className='text-gray-400 font-bold'>Match:</h1>
+                            <h1 className='font-semibold'>{game?.replace(/\b\w/g, (c) => c.toUpperCase())}</h1>
+                         </div>
+                         <div className='flex gap-4'>
+                            <h1 className='text-gray-400 font-bold'>Option:</h1>
+                            <h1 className='text-green-500'>{odds?.replace(/\b\w/g, (c) => c.toUpperCase())}</h1>
+                        </div>
+                        <div className='flex gap-6'>
+                            <h1 className='text-gray-400 font-bold'>Result:</h1>
+                            <div>{
+                                predict_db.result === "true"? <PassResultSVG color={Colors.PASS} size={30} /> : predict_db.result === "Ongoing"? <p>Ongoing...</p> :
+                                <FailResultSVG color={Colors.PRIMARY} size={30} />
+                            }</div>
+                        </div>
+                        </div >  
+                    )})):(
                     <p>No Prediction</p>
                     )}
                 </div>
