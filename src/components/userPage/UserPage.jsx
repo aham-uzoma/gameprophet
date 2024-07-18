@@ -236,6 +236,7 @@ function UserPage() {
     const handleReloadPage = (e) => {
         setModalVisible(false)
         window.location.reload()
+        setTimeout(() => window.scrollTo(0, 0), 0)
     }
     const handleSubmit = async (e) => {
         e.preventDefault()

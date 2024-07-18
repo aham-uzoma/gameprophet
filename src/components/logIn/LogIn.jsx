@@ -44,7 +44,8 @@ const LogIn = ({isLoggedIn, setIsLoggedIn, verified, setVerified}) => {
             const {isVerified} = decoded.UserInfo
             if(isVerified === true){
                 setAuth({accessToken})
-                alert('LogIn successful !!!')
+                //alert('LogIn successful !!!')
+                console.log('LogIn successful !!!')
                 setIsLoggedIn(true)
                 navigate('/vip')
             }else{

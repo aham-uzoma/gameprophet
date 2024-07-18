@@ -11,18 +11,23 @@ const Navbar = () => {
 
     const {auth, isAdmin} = useAuth() 
 
- const toggleMenuOption = () =>{
+ const toggleMenuOpen = () =>{
     const navLinks = document.querySelector('.nav-links')
     setIsMenueOpen(!isMenueOpen)
     navLinks.classList.toggle('top-[7.8%]')
  }
+ const toggleMenuClose = ()=>{
+  const navLinks = document.querySelector('.nav-links')
+  setIsMenueOpen(false)
+  navLinks.classList.remove('top-[7.8%]')
+ }
  const navigate = useNavigate()
- const goToHome =()=> navigate('/');setIsMenueOpen(false)
- const goToHistory =()=> navigate('/history');setIsMenueOpen(false)
+ const goToHome =()=> {navigate('/'); toggleMenuClose()}
+ const goToHistory =()=> {navigate('/history'); toggleMenuClose()}
  const goToPricing =()=> navigate('/pricing')
- const goToVIP =()=> navigate('/vip');setIsMenueOpen(false)
- const goToUserProfilePage=()=> navigate('/profilePage');setIsMenueOpen(false)
- const goToMyProfilePage=()=> navigate('/myProfile');setIsMenueOpen(false)
+ const goToVIP =()=> {navigate('/vip'); toggleMenuClose()}
+ const goToUserProfilePage=()=> {navigate('/profilePage'); toggleMenuClose()}
+ const goToMyProfilePage=()=> {navigate('/myProfile'); toggleMenuClose()}
  const goToLogInPage=()=> navigate('/logIn')
 
   return (
@@ -53,7 +58,7 @@ const Navbar = () => {
               Sign-in
               </button> */}
               {/* <FontAwesomeIcon icon={faBars} className='text-xl cursor-pointer ' /> */}
-            <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOption} />
+            <FontAwesomeIcon icon={isMenueOpen? faXmark:faBars} className='text-xl cursor-pointer md:hidden' onClick={toggleMenuOpen} />
         </div>
         </nav>
 
