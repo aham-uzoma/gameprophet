@@ -36,7 +36,7 @@ const Navbar = () => {
         <nav className='flex justify-between items-center w-[90%] h-16 mx-auto font-sen mb-5 md:mb-0'> 
         {/* bg-red-500 */}
           <div className='text-xl md:text-2xl font-bold text-red-600'>
-            GAME-PROPHET
+            GAME-PROPHET.
           </div>
           <div className='nav-links bg-white md:static absolute  shadow z-50  left-0 top-[-100%] md:min-h-fit md:w-auto  w-full flex items-center px-5 py-5'>
             <ul className='flex md:flex-row flex-col bg-white md:items-center md:gap-[4vw] gap-8'>

@@ -37,7 +37,7 @@ const ImageSlider = () => {
         transition: 'opacity 1s ease',  
         //height: '65vh'  
         }}>
-      <h5 className='text-white text-7xl  md:text-9xl font-bold font-sen' >Project x.</h5>
+      <h5 className='text-white text-4xl  md:text-9xl font-bold font-sen' >GAME-PROPHET.</h5>
     </section>
     
 
