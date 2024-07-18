@@ -33,6 +33,12 @@ const Register = () => {
         setFavouriteTeam(e.target.value)
     }
 
+      // Validating email using regular expression
+  const validateEmail = (email) => {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email)
+  }
+
     const handleSubmitUser = async(e)=>{
         e.preventDefault()
         if (username === '') {
@@ -43,9 +49,13 @@ const Register = () => {
             setSeverity("error")
             setMessage("Please Enter a password")
             setOpen(true)
-          } else if (email === '') {
+          } else if (email === "") {
             setSeverity("error")
-            setMessage("Please Enter a email")
+            setMessage("Please Enter an Email")
+            setOpen(true)
+          } else if (!validateEmail(email)) {
+            setSeverity("error")
+            setMessage("Enter a valid Email Format")
             setOpen(true)
           } else if (favouriteTeam === '') {
             setSeverity("error")
@@ -65,14 +75,15 @@ const Register = () => {
                 navigate('/logIn')
                 
                // setIsSuccessfull(true)
-            } else {
-                alert('Error: Something went wrong. Please try again later.');
-            }
-        }).catch(error => {
-            console.log(error)
-            alert('Error: Something went wrong. Please try again later.');
-
-        })
+            } 
+        }).catch(error =>  {
+          if (error.response && error.response.status === 409) {
+              alert('Error: This email has been used.');
+          } else {
+              console.log(error);
+              alert('Error: Something went wrong. Please try again later.');
+          }
+      })
           }}
 
           const handleClose = (event, reason) => {
