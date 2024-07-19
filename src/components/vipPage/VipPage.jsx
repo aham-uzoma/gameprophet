@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import AppContext from '../../context/ContextProvider'
 import FlashMessages from '../flashMessages/FlashMessages'
 
+
 const VipPage = () => {
     const [comment, setComment] = useState('')
     const [commentList, setCommentList] = useState([])
@@ -21,7 +22,7 @@ const VipPage = () => {
 
 
     useEffect(()=>{
-        if (isVerified == true) {
+        if (isVerified === true) {
             console.log('isVerified', isVerified)
                 return navigate('/verifyEmail')
             }
@@ -59,7 +60,7 @@ const VipPage = () => {
         setComment(e.target.value)
     }
     const handleSubmitComment = async(e)=>{
-        if(comment == ''){
+        if(comment === ''){
             setSeverity('error')
             setMessage('Please type in your comment')
             setOpen(true)
