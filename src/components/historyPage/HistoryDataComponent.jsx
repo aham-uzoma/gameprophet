@@ -4,14 +4,22 @@ import FailResultSVG from '../../icons/FailResultSVG'
 import Colors from '../../utils/Colors'
 import dayjs from 'dayjs';
 import AppContext from '../../context/ContextProvider';
+import loading from '../../assets/images/loading.gif'
 
 const HistoryDataComponent = ({sliceValue}) => {
     const {isLoading, groupedPredictionData } = useContext(AppContext)
     
     console.log("groupedPredictionData44", groupedPredictionData)
     if (isLoading) {
-        return <p>Loading predictions...</p>;
+        return <div className='bg-white w-screen flex mt-10 h-[60vh] items-center justify-center'>
+            <img className='h-36 w-44' src={loading} alt='loading Predictions...'/>
+            </div>
       }
+    //   else{
+    //      <div className='bg-white w-screen flex mt-10 h-[60vh] items-center justify-center'>
+    //     <div className='h-36 w-44'>Oops!!! something went wrong, please try again next time</div>
+    //     </div>
+    //   }
 
   return (
                 <section>
