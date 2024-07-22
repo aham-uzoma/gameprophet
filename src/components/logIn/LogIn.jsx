@@ -6,7 +6,7 @@ import FlashMessages from '../flashMessages/FlashMessages'
 import { jwtDecode } from "jwt-decode";
 
 
-const LogIn = ({isLoggedIn, setIsLoggedIn, verified, setVerified}) => {
+const LogIn = ({setIsLoggedIn}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -81,7 +81,7 @@ const LogIn = ({isLoggedIn, setIsLoggedIn, verified, setVerified}) => {
 
 
     return (
-        <div className='flex flex-col w-screen h-screen items-center bg-amber-50'>
+        <div className='flex flex-col w-screen items-center pb-96 bg-amber-50'>
             <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
             <form className='flex flex-col items-center p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl drop-shadow-lg font-sen'
               >

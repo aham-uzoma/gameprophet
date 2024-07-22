@@ -10,7 +10,7 @@ import HistoryDataComponent from '../historyPage/HistoryDataComponent';
 const FrontPage = () => {
   return (
 
-    <section className=' bg-amber-50 font-sen'>
+    <section className=' bg-amber-50 font-sen pb-96'>
       <ImageSlider />
       <PredictTable />
       <div className='flex flex-col justify-center w-screen items-center font-sen'>

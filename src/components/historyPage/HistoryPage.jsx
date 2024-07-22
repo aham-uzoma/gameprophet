@@ -29,7 +29,7 @@ const HistoryPage = () => {
 //        })
 //    }, [])
     return (
-        <section className=' bg-amber-50 font-sen'>
+        <section className=' bg-amber-50 font-sen pb-96'>
             <section className='flex flex-col mb-8 '>
                 <div className='flex w-screen bg-black bg-cover items-center pl-8' style={{
                     height: '30vh', backgroundImage:

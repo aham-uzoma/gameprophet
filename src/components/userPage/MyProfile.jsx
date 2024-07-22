@@ -21,7 +21,7 @@ const MyProfile = () => {
 }
 
   return (
-    <div className='flex flex-col w-screen items-center h-screen bg-amber-50'>
+    <div className='flex flex-col w-screen items-center pb-96 h-screen bg-amber-50'>
     {/* <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} /> */}
     <div className='flex flex-col p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl shadow font-sen'
       >

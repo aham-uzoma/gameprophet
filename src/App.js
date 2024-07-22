@@ -14,6 +14,7 @@ import PersistLogIn from './components/requireAuth/PersistLogIn';
 import MyProfile from './components/userPage/MyProfile';
 import VerifyEmail from './components/verifyEmail/VerifyEmail';
 import { useState } from 'react';
+import Payment from './components/payments/Payment';
 
 
 const  App =()=> {
@@ -35,14 +36,9 @@ const  App =()=> {
 
       <Route path='register' element={<Register/>}/>
 
-      <Route path='logIn' element={<LogIn isLoggedIn={isLoggedIn} 
-                                          setIsLoggedIn={setIsLoggedIn} 
-                                          verified={verified} 
-                                          setVerified={setVerified}/>}/>
+      <Route path='logIn' element={<LogIn setIsLoggedIn={setIsLoggedIn}/>}/>
 
       <Route path='history' element={<HistoryPage />} />
-
-      <Route path='pricing' element={<Pricing/>}/>
 
       <Route path='verifyEmail' element={<VerifyEmail verified={verified} setVerified={setVerified}/>}/>
 
@@ -52,6 +48,8 @@ const  App =()=> {
 
       <Route element={<RequireAuth allowedRoles={[3012]}/>}>
 
+      <Route path='payment' element={<Payment/>}/>
+      
       <Route path='vip' element={<VipPage />} />
 
       <Route path='myProfile' element={<MyProfile/>}/>

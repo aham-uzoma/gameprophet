@@ -300,7 +300,7 @@ function UserPage() {
         return <p>Loading predictions...</p>;
       }
     return (
-        <section >
+        <section className='pb-96' >
             <section className='flex flex-col drop-shadow-md'>
                 <div className='flex flex-col md:flex-row items-start bg-white bg-cover font-sen md:items-center pl-8  pb-4 ' style={{
                     height: '30vh',

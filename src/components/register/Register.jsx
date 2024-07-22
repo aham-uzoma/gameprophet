@@ -95,7 +95,7 @@ const Register = () => {
           }
 
   return (
-    <div className='flex flex-col w-screen h-screen items-center bg-amber-50'> 
+    <div className='flex flex-col w-screen  items-center pb-96 bg-amber-50'> 
       <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
         <form className='flex flex-col items-center p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl drop-shadow-lg font-sen'
           >
