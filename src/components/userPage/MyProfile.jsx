@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import useLogOutHook from '../../hooks/useLogOut';
 import useAuth from '../../hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import AppContext from '../../context/ContextProvider';
+import dayjs from 'dayjs';
+import axios from '../../api/axios';
 
 const MyProfile = () => {
-  const {username,email, favouriteTeam,} = useAuth()
+  const {username,email, favouriteTeam,subscribed } = useAuth()
+  
+  const [nextSubscriptionDate, setNextSubscriptionDate] =  useState(null)
+  const [subscription_code, setSubscription_code] = useState(null)
+
   const logOut = useLogOutHook()
   const navigate = useNavigate() 
 
@@ -18,6 +25,50 @@ const MyProfile = () => {
     } catch (error){
         console.log('LogOut Failed:', error)
     }
+}
+
+
+useEffect(()=>{
+  if(email){
+    const handleSubscribed = async()=>{
+      console.log('EMAIL:', email)
+    //   await axios.post('/getSubscriptions/subscriptions',{email})
+    await axios.get(`/getSubscriptions/${email}`)
+       .then(res=>{
+          if(res.data[0].status === 'active'){
+              setNextSubscriptionDate(res.data[0].next_payment_date)
+              setSubscription_code(res.data[0].subscription_code)
+              console.log('nextPaymentDate',res.data[0].next_payment_date)
+          }else{
+              console.log('ERROR GETTING NEXT BILLING DATE')
+          }
+    
+       }).catch(error => {
+          console.log('ERROR:', error )
+          alert('ERROR: Something went wrong. Please try again later')
+       })
+    }
+    handleSubscribed()
+  }
+
+},[])
+
+const handleCancelSubscription =async()=>{
+   await axios.post('/cancelSubscription/cancelSubscription',{email, subscription_code}).then(res=>{
+  //   if(res.data[0].status === 'non-renewing'){
+  //     //setNextSubscriptionDate(res.data[0].next_payment_date)
+  //     console.log('nextPaymentDate',res.data[0])
+  // }else{
+  //     console.log('SUBSCRIPTION CANCELATION ERROR')
+  // }
+      console.log('respoND', res)
+      console.log('SUBSCRIPTION DISABLED')
+
+    }
+   ).catch(error => {
+    console.log('ERROR:', error )
+    alert('ERROR: Something went wrong updating payment method')
+ })
 }
 
   return (
@@ -39,12 +90,19 @@ const MyProfile = () => {
         </div>
         <div className='flex gap-3 m-4'>
           <h1 className='text-gray-400 font-bold'>Account Type:</h1> 
-          <h1 className='text-orange-900 font-bold'>VIP</h1> 
+          <h1 className='text-orange-900 font-bold'>{subscribed?<p>VIP</p>:<p>Regular</p>}</h1> 
         </div>
         <div className='flex gap-3 m-4'>
-          <h1 className='text-gray-400 font-bold'>Payment Status:</h1> 
-          <h1 className='text-green-500 font-bold'>SubScribed_ Expires in 10 days</h1> 
+          <h1 className='text-gray-400 font-bold'>Next Subscription Date:</h1> 
+          {console.log('noDate', nextSubscriptionDate)}
+          {/* nextSubscriptionDate.length > 0? */}
+          {nextSubscriptionDate !== null?
+          <h1 className='text-green-500 font-bold'>{dayjs(nextSubscriptionDate).format('dddd DD MMMM YYYY')}</h1>:
+          <h1 className='text-green-500 font-bold'>You are not Subscribed</h1>
+         }
+          {/* SubScribed_ Expires in 10 days */}
         </div>
+        {subscribed && <div className='flex gap-3 m-4'><h1 className='text-gray-400 font-bold hover:text-red-600 cursor-pointer' onClick={handleCancelSubscription}>Cancel Subscription</h1></div>}
 
         <div className='flex gap-3 m-4'><h1 className='text-gray-400 font-bold hover:text-red-600 cursor-pointer' onClick={handleLogOut}>LogOut_</h1></div>
 

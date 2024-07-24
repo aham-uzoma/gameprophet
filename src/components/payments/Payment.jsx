@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import axios from '../../api/axios'
 import { useNavigate } from 'react-router-dom'
+import AppContext from '../../context/ContextProvider'
 
 const Payment = () => {
     const [plan_code, setPlan_code] = useState('')
     const [amount, setAmount] = useState(0)
     const [planName, setPlanName] = useState('') 
-
-    //const plan_code = 'PLN_mfwpvqkkq4y38as'
 
     const {email} = useAuth()
 
@@ -41,7 +40,7 @@ const Payment = () => {
                 const authorization_url  = res.data.authorization_url
                  if(authorization_url){
                     window.location.href = authorization_url
-                    handleSubscribed()//i guess what should be here is the function that imidately populates
+                   // handleSubscribed()//i guess what should be here is the function that imidately populates
                     //the user profile with data from eubscribed user; probably
 
                  }else{
@@ -56,19 +55,7 @@ const Payment = () => {
       })
     }
 
-    const handleSubscribed = async()=>{
-        console.log('EMAIL:', email)
-         await axios.post('/getSubscriptions/subscriptions',{email}).then(res=>{
-            console.log('Subscribed', res)
-            //send sth to the user database to update the user subscribed status
-            //to true or false based on paystach "active" or "non-renewing status"
-            //so we might create a field in the usermodel that tracks active or non-renewing to 
-            //give or restrict user access to the vip page based on subscription status.
-         }).catch(error => {
-            console.log('ERROR:', error )
-            alert('ERROR: Something went wrong. Please try again later')
-         })
-    }
+
   
 
   return (

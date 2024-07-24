@@ -15,11 +15,13 @@ import MyProfile from './components/userPage/MyProfile';
 import VerifyEmail from './components/verifyEmail/VerifyEmail';
 import { useState } from 'react';
 import Payment from './components/payments/Payment';
+import SubscribedPage from './components/subscribed/SubscribedPage';
 
 
 const  App =()=> {
   const [verified, setVerified] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
 
 
   return (
@@ -46,13 +48,19 @@ const  App =()=> {
       {/* Protected Routes */}
       <Route element={<PersistLogIn/>}>
 
+      <Route element={<RequireAuth allowedRoles={[3012]} requireSubscription={true} />}>
+      <Route path='vip' element={<VipPage />} />
+      </Route>
+
       <Route element={<RequireAuth allowedRoles={[3012]}/>}>
 
-      <Route path='payment' element={<Payment/>}/>
-      
-      <Route path='vip' element={<VipPage />} />
+      <Route path='payment' element={<Payment />}/>
 
-      <Route path='myProfile' element={<MyProfile/>}/>
+      {/* <Route path='vip' element={<VipPage />} /> */}
+
+      <Route path='myProfile' element={<MyProfile />}/>
+
+      <Route path='isSubscribed'element={<SubscribedPage />}/> 
 
       </Route>
 

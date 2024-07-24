@@ -1,13 +1,10 @@
-import React from 'react'
-import Navbar from '../navbar/Navbar'
+import React, { useContext, useEffect, useState } from 'react'
 import ImageSlider from '../backgroundImageSlider/ImageSlider'
 import PredictTable from '../predictTable/PredictTable'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import HistoryDataComponent from '../historyPage/HistoryDataComponent';
 
 const FrontPage = () => {
+
   return (
 
     <section className=' bg-amber-50 font-sen pb-96'>

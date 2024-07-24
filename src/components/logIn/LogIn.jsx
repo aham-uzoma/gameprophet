@@ -43,7 +43,19 @@ const LogIn = ({setIsLoggedIn}) => {
                 //alert('LogIn successful !!!')
                 console.log('LogIn successful !!!')
                 setIsLoggedIn(true)
-                navigate('/vip')
+
+                if(accessToken){
+                    const decoded = jwtDecode(accessToken)
+                    const {subscribed} = decoded.UserInfo
+                    if(subscribed === true){
+                        navigate('/vip')
+                    }else{
+                        navigate('/payment')
+                    }
+                }
+
+
+                // navigate('/vip')
         //    if(accessToken){
         //     const decoded = jwtDecode(accessToken)
         //     const {isVerified} = decoded.UserInfo

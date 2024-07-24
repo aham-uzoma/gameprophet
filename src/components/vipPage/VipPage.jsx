@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import PredictionDataContext from '../../context/ContextProvider'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import AppContext from '../../context/ContextProvider'
 import FlashMessages from '../flashMessages/FlashMessages'
+import useAuth from '../../hooks/useAuth'
+import axios from '../../api/axios'
 
 
 const VipPage = () => {
@@ -19,7 +21,6 @@ const VipPage = () => {
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate()
     const {isVerified} = useContext(AppContext)
-
 
     useEffect(()=>{
         if (isVerified === true) {
