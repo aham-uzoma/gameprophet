@@ -33,6 +33,8 @@ const SubscribedPage = () => {
               if(res.data[0].status === 'active'){
                   setSubscribed(true)
                   updateUserSubscriptionStatus(true)
+                  console.log(res)
+                  console.log(res.data[0])
               }else{
                   console.log('ERRORRRR')
                   setSubscribed(false)

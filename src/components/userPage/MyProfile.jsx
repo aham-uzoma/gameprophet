@@ -5,12 +5,18 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import AppContext from '../../context/ContextProvider';
 import dayjs from 'dayjs';
 import axios from '../../api/axios';
+import FlashMessages from '../flashMessages/FlashMessages'
+
 
 const MyProfile = () => {
-  const {username,email, favouriteTeam,subscribed } = useAuth()
+  const {username,email, favouriteTeam,subscribed, setSubscribed } = useAuth()
   
   const [nextSubscriptionDate, setNextSubscriptionDate] =  useState(null)
   const [subscription_code, setSubscription_code] = useState(null)
+  const [emailToken, setEmailToken] = useState(null)
+  const [severity, setSeverity] = useState("")
+  const [themessage, setMessage] = useState("")
+  const [open, setOpen] = useState(false)
 
   const logOut = useLogOutHook()
   const navigate = useNavigate() 
@@ -27,17 +33,26 @@ const MyProfile = () => {
     }
 }
 
+const handleClose = (event, reason) => {
+  if (reason === 'clickaway') {
+    return
+  }
+  setOpen(false)
+
+}
+
 
 useEffect(()=>{
   if(email){
     const handleSubscribed = async()=>{
-      console.log('EMAIL:', email)
+      console.log('subscription_code:', subscription_code)
     //   await axios.post('/getSubscriptions/subscriptions',{email})
     await axios.get(`/getSubscriptions/${email}`)
        .then(res=>{
           if(res.data[0].status === 'active'){
               setNextSubscriptionDate(res.data[0].next_payment_date)
               setSubscription_code(res.data[0].subscription_code)
+              setEmailToken(res.data[0].email_token)
               console.log('nextPaymentDate',res.data[0].next_payment_date)
           }else{
               console.log('ERROR GETTING NEXT BILLING DATE')
@@ -54,7 +69,7 @@ useEffect(()=>{
 },[])
 
 const handleCancelSubscription =async()=>{
-   await axios.post('/cancelSubscription/cancelSubscription',{email, subscription_code}).then(res=>{
+   await axios.post('/cancelSubscription/cancelSubscription',{emailToken, subscription_code}).then(res=>{
   //   if(res.data[0].status === 'non-renewing'){
   //     //setNextSubscriptionDate(res.data[0].next_payment_date)
   //     console.log('nextPaymentDate',res.data[0])
@@ -62,7 +77,12 @@ const handleCancelSubscription =async()=>{
   //     console.log('SUBSCRIPTION CANCELATION ERROR')
   // }
       console.log('respoND', res)
-      console.log('SUBSCRIPTION DISABLED')
+      if(res.status == 200){
+        setSeverity('success')
+        setMessage('Your Basic subscription have been successfully cancelled !!!')
+        setOpen(true)
+      }
+     // console.log('SUBSCRIPTION DISABLED')
 
     }
    ).catch(error => {
@@ -73,7 +93,7 @@ const handleCancelSubscription =async()=>{
 
   return (
     <div className='flex flex-col w-screen items-center pb-96 h-screen bg-amber-50'>
-    {/* <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} /> */}
+    <FlashMessages message={themessage} open={open} severity={severity} onClose={handleClose} />
     <div className='flex flex-col p-4 bg-white sm:w-[75%] lg:w-[45%] w-[90%] mt-9 rounded-2xl shadow font-sen'
       >
         <div className='flex gap-3 m-4'>
