@@ -21,24 +21,21 @@ const SubscribedPage = () => {
 
   const reference = searchParams.get('reference')
 
-  useEffect(()=>{
-    console.log('SUBSCRIBED?', subscribed)
-  },[])
-
       const handleSubscribed = async()=>{
           console.log('EMAIL:', email)
         //   await axios.post('/getSubscriptions/subscriptions',{email})
         await axios.get(`/getSubscriptions/${email}`)
+       //  await axios.get(`/updateUserSubscriptionStatus/${email}`)
            .then(res=>{
-              if(res.data[0].status === 'active'){
+              if(res.data[0].id){
                   setSubscribed(true)
-                  updateUserSubscriptionStatus(true)
+                  userSubscriptionStatusUpdate(true)
                   console.log(res)
                   console.log(res.data[0])
               }else{
                   console.log('ERRORRRR')
                   setSubscribed(false)
-                  updateUserSubscriptionStatus(false)
+                  userSubscriptionStatusUpdate(false)
               }
            }).catch(error => {
               console.log('ERROR:', error )
@@ -59,7 +56,7 @@ const SubscribedPage = () => {
       },[])
 
 
-  const updateUserSubscriptionStatus =async(subscribedStatus)=>{
+  const userSubscriptionStatusUpdate =async(subscribedStatus)=>{
       await axios.post('/verifyUserSub/verifySubs', {email, subscribed:subscribedStatus}).then(res=>{
           console.log('updated', res)
       }).catch(error =>{

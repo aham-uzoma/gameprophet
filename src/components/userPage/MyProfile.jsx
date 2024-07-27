@@ -49,7 +49,10 @@ useEffect(()=>{
     //   await axios.post('/getSubscriptions/subscriptions',{email})
     await axios.get(`/getSubscriptions/${email}`)
        .then(res=>{
-          if(res.data[0].status === 'active'){
+        if (res.data.length === 0) {
+          console.log('Data is empty');
+          // Handle the case when data is empty (e.g., show a message to the user)
+        } else if(res.data[0].status === 'active'){
               setNextSubscriptionDate(res.data[0].next_payment_date)
               setSubscription_code(res.data[0].subscription_code)
               setEmailToken(res.data[0].email_token)
@@ -69,7 +72,7 @@ useEffect(()=>{
 },[])
 
 const handleCancelSubscription =async()=>{
-   await axios.post('/cancelSubscription/cancelSubscription',{emailToken, subscription_code}).then(res=>{
+   await axios.post('/cancelSubscription/cancelSubscription',{emailToken, subscription_code, email}).then(res=>{
   //   if(res.data[0].status === 'non-renewing'){
   //     //setNextSubscriptionDate(res.data[0].next_payment_date)
   //     console.log('nextPaymentDate',res.data[0])
@@ -81,6 +84,8 @@ const handleCancelSubscription =async()=>{
         setSeverity('success')
         setMessage('Your Basic subscription have been successfully cancelled !!!')
         setOpen(true)
+        window.location.reload();
+        
       }
      // console.log('SUBSCRIPTION DISABLED')
 
