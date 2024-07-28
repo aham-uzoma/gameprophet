@@ -3,9 +3,14 @@ import AppContext from "../context/ContextProvider";
 import { jwtDecode } from "jwt-decode";
 
 const useAuth = () => {
-    const {auth, setAuth} = useContext(AppContext)
+    const {auth,authLocalStorage, setAuth, setAuthLocalStorage} = useContext(AppContext)
+
     let isAdmin = false
     let status = "user"
+
+    // if(authLocalStorage?.refreshToken){
+    //     localStorage.setItem('refreshToken',authLocalStorage?.refreshToken)
+    // }
 
     if(auth?.accessToken){
         const decoded = jwtDecode(auth?.accessToken)
@@ -22,7 +27,9 @@ const useAuth = () => {
                  favouriteTeam, 
                  roles, 
                  isVerified, 
-                 subscribed}
+                 subscribed,
+                 authLocalStorage,
+                 setAuthLocalStorage}
 
     }
 
@@ -35,6 +42,8 @@ const useAuth = () => {
              favouriteTeam:'', 
              roles:[], 
              isVerified:'', 
-             subscribed:''}
+             subscribed:'',
+             authLocalStorage,
+             setAuthLocalStorage}
 }
 export default useAuth

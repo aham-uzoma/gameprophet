@@ -20,7 +20,7 @@ const LogIn = ({setIsLoggedIn}) => {
     const goToRegisterPage=()=> navigate('/register')
 
 
-    const {setAuth} = useAuth()
+    const {setAuth, setAuthLocalStorage} = useAuth()
 
     const location = useLocation()
 
@@ -39,6 +39,8 @@ const LogIn = ({setIsLoggedIn}) => {
         e.preventDefault()
          axiosWithCredentials.post('/auth', {email, password}).then(res =>{
             const accessToken = res?.data?.accessToken
+            const refreshToken = res?.data?.refreshToken
+            setAuthLocalStorage({refreshToken})
             setAuth({accessToken})
                 //alert('LogIn successful !!!')
                 console.log('LogIn successful !!!')

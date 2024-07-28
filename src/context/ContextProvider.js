@@ -11,12 +11,19 @@ const AppContext = createContext({});
 export const ContextProvider = ({children}) => {
 
     const [auth, setAuth] = useState({});
+    const [authLocalStorage, setAuthLocalStorage] = useState({})
     // const [nextSubscriptionDate, setNextSubscriptionDate] = useState(null)
     const [userPredictions, setUserPredictions] = useState([])
     const [groupedPredictionData, setGroupedPredictionData] = useState({})
     const [userCount, setUserCount] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [subscribed, setSubscribed] = useState(false)
+
+    if(authLocalStorage?.refreshToken){
+     const localStorageData=  localStorage.setItem('refreshToken',authLocalStorage?.refreshToken)
+
+     console.log('localStorageData', localStorageData)
+  }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -107,7 +114,9 @@ export const ContextProvider = ({children}) => {
           setUserCount,
           setSubscribed,
           userPredictions,
+          authLocalStorage,
           setUserPredictions,
+          setAuthLocalStorage,
           // nextSubscriptionDate,
           groupedPredictionData,
           // setNextSubscriptionDate,

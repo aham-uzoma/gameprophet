@@ -20,4 +20,22 @@ export const axiosPrivate = axios.create({
     withCredentials: true
 });
 
+export const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {'Content-Type': 'application/json'},
+  withCredentials: true // For cookie-based authentication
+});
+
+axiosInstance.interceptors.request.use(config => {
+  // Add authorization header if token exists
+  const refreshToken = localStorage.getItem('refreshToken'); // Replace with your storage mechanism
+  if (refreshToken) {
+    config.headers.Authorization = `Bearer ${refreshToken}`;
+  }
+  return config;
+});
+
+// ... other interceptors for response handling, error handling, etc.
+
+
 
