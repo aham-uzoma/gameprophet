@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 //const BASE_URL = 'http://localhost:8080/api/v1/predict';
-const BASE_URL= 'http://localhost:3500';
-//const BASE_URL='https://gameprophetapinodejs.onrender.com'
+//const BASE_URL= 'http://localhost:3500';
+const BASE_URL='https://gameprophetapinodejs.onrender.com'
 
 export default axios.create({
     baseURL: BASE_URL
