@@ -1,12 +1,6 @@
 import React from 'react'
 
 const Pricing = () => {
-  
-  const handleSubscribeToPlan = async()=>{
-      await axios.post()()
-  }
-
-
 
   return (
     <div className='flex flex-col w-screen  bg-amber-50'>
